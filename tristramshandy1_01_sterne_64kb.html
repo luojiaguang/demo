@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>tristramshandy1_01_sterne_64kb - HTML5 Audio Read</title>
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<style>
+
+html {
+    background: #333;
+    font-family: Verdana, sans-serif;
+}
+body {
+    background: white;
+    padding: 1em;
+    border-radius: 1em;
+}
+a {
+    color: #0E2560;
+}
+h2 {
+    margin-bottom: 1em;
+}
+.passage-audio {
+    height: 2em;
+}
+#passage-audio {
+    width: 100%;
+    max-height: 2em;
+}
+#passage-text.speaking {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.autofocus-current-word,
+.playback-rate {
+    font-size: smaller;
+}
+.autofocus-current-word label,
+.playback-rate label {
+    font-weight: bold;
+}
+q {
+    quotes: "“" "”" "‘" "’";
+}
+.section-heading {
+    display: none;
+}
+.passage p {
+    line-height: 1.4em;
+}
+.verse-start {
+    line-height: 0;
+}
+.initialized span[data-begin]:focus,
+.initialized span[data-begin]:hover { background-color: #FFFFCA; box-shadow: 0px 0px 4px #FFFFCA; }
+.initialized span[data-begin].speaking { background-color: yellow; box-shadow: 0px 0px 4px yellow; }
+.initialized span[data-begin] { cursor: pointer; }
+.initialized span[match=srt] { color: #666666; }
+.initialized span.nomatch { background-color: lightgray; color: purple; }
+.error {
+    color: red;
+}
+
+article > footer {
+    border-top: solid 1px gray;
+    padding-top: 1em;
+    margin-top: 1em;
+}
+
+footer {
+    margin-bottom: 0.5em;
+    line-height: 1.4em;
+    font-size: small;
+}
+footer img {
+    vertical-align: text-bottom;
+}
+</style>
+    </head>
+    <body>
+        <h1>tristramshandy1_01_sterne_64kb</h1>
+
+        <article>
+            <p class="loading">
+                <em><img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" alt="Initializing audio"> Loading audio…</em>
+            </p>
+
+            <p class="passage-audio" hidden>
+                <audio id="passage-audio" class="passage" controls>
+                    <source src="tristramshandy1_01_sterne_64kb.mp3" type="audio/mp3">
+<source src="tristramshandy1_01_sterne_64kb.wav" type="audio/wav">
+<source src="tristramshandy1_01_sterne_64kb.ogg" type="audio/ogg">
+                    <em class="error"><strong>Error:</strong> Your browser doesn't appear to support HTML5 Audio.</em>
+                </audio>
+            </p>
+            <p class="passage-audio-unavailable" hidden>
+                <em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
+            </p>
+
+            <p class="playback-rate" hidden title="Note that increaseing the reading rate will decrease accuracy of word highlights">
+                <label for="playback-rate">Reading rate:</label>
+                <input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" disabled onchange='this.nextElementSibling.textContent = String(Math.round(this.valueAsNumber * 10) / 10) + "\u00D7";'>
+                <output>1&times;</output>
+            </p>
+            <p class="playback-rate-unavailable" hidden>
+                <em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
+            </p>
+            <p class="autofocus-current-word" hidden>
+                <input type="checkbox" id="autofocus-current-word" checked>
+                <label for="autofocus-current-word">Auto-focus/auto-scroll</label>
+            </p>
+
+            <noscript>
+                <p class="error"><em><strong>Notice:</strong> You must have JavaScript enabled/available to try this HTML5 Audio read along.</em></p>
+            </noscript>
+
+            <div id="passage-text" class="passage">
+                <h3 class="section-heading">tristramshandy1_01_sterne_64kb</h3>
+                <p>
+<span class="nomatch">THE</span> <span match="seg" data-begin="21.600" data-dur="0.390">LIFE</span> <span match="seg" data-begin="21.989" data-dur="0.160">AND</span> <span match="seg" data-begin="22.149" data-dur="0.539">OPINIONS</span> <span match="seg" data-begin="22.689" data-dur="0.140">OF</span> <span match="seg" data-begin="22.829" data-dur="0.429">TRISTRAM</span> <span match="seg" data-begin="23.260" data-dur="0.620">SHANDY</span>,
+<span match="seg" data-begin="24.019" data-dur="0.240">GENT</span>.—<span class="nomatch">VOLUME</span> <span class="nomatch">THE</span> <span class="nomatch">FIRST</span>
+</p>
+<p>
+<span class="nomatch">Chapter</span> <span class="nomatch">1</span>.<span match="seg" data-begin="110.439" data-dur="0.179">I</span>.
+</p>
+<p>
+<span match="seg" data-begin="110.619" data-dur="0.030">I</span> <span match="seg" data-begin="110.650" data-dur="0.390">wish</span> <span match="seg" data-begin="111.070" data-dur="0.260">either</span> <span match="seg" data-begin="111.329" data-dur="0.190">my</span> <span match="seg" data-begin="111.579" data-dur="0.310">father</span> <span match="seg" data-begin="111.889" data-dur="0.220">or</span> <span match="seg" data-begin="112.110" data-dur="0.160">my</span> <span match="seg" data-begin="112.269" data-dur="0.539">mother</span>,
+<span match="seg" data-begin="113.110" data-dur="0.210">or</span> <span match="seg" data-begin="113.320" data-dur="0.359">indeed</span> <span match="seg" data-begin="113.679" data-dur="0.250">both</span> <span match="seg" data-begin="113.929" data-dur="0.080">of</span> <span match="seg" data-begin="114.059" data-dur="0.269">them</span>,
+<span match="seg" data-begin="114.750" data-dur="0.190">as</span> <span match="seg" data-begin="114.939" data-dur="0.140">they</span> <span match="seg" data-begin="115.080" data-dur="0.149">were</span> <span match="seg" data-begin="115.229" data-dur="0.130">in</span> <span match="seg" data-begin="115.359" data-dur="0.420">duty</span> <span match="seg" data-begin="115.779" data-dur="0.340">both</span> <span match="seg" data-begin="116.150" data-dur="0.470">equally</span> <span match="seg" data-begin="116.619" data-dur="0.359">bound</span> <span match="seg" data-begin="117.009" data-dur="0.160">to</span> <span match="seg" data-begin="117.170" data-dur="0.260">it</span>,
+<span match="seg" data-begin="117.839" data-dur="0.190">had</span> <span match="seg" data-begin="118.059" data-dur="0.500">minded</span> <span match="seg" data-begin="118.589" data-dur="0.260">what</span> <span match="seg" data-begin="118.849" data-dur="0.160">they</span> <span match="seg" data-begin="119.009" data-dur="0.210">were</span> <span match="seg" data-begin="119.219" data-dur="0.570">about</span> <span match="seg" data-begin="119.820" data-dur="0.210">when</span> <span match="seg" data-begin="120.029" data-dur="0.130">they</span> <span match="seg" data-begin="120.160" data-dur="0.440">begot</span> <span match="seg" data-begin="120.629" data-dur="0.280">me</span>;
+<span match="seg" data-begin="121.719" data-dur="0.199">had</span> <span match="seg" data-begin="121.919" data-dur="0.110">they</span> <span match="seg" data-begin="122.029" data-dur="0.310">duly</span> <span match="seg" data-begin="122.339" data-dur="0.560">consider'd</span> <span match="seg" data-begin="122.900" data-dur="0.170">how</span> <span match="seg" data-begin="123.070" data-dur="0.260">much</span> <span match="seg" data-begin="123.330" data-dur="0.630">depended</span> <span match="seg" data-begin="123.959" data-dur="0.340">upon</span> <span match="seg" data-begin="124.299" data-dur="0.229">what</span> <span match="seg" data-begin="124.529" data-dur="0.070">they</span> <span class="nomatch">were</span> <span class="nomatch">then</span> <span class="nomatch">doing</span>;—<span class="nomatch">that</span> <span match="seg" data-begin="125.899" data-dur="0.320">not</span> <span match="seg" data-begin="126.609" data-dur="0.199">only</span> <span match="seg" data-begin="126.809" data-dur="0.110">the</span> <span match="seg" data-begin="126.919" data-dur="0.650">production</span> <span match="seg" data-begin="127.569" data-dur="0.110">of</span> <span match="seg" data-begin="127.709" data-dur="0.110">a</span> <span match="seg" data-begin="127.819" data-dur="0.480">rational</span> <span match="seg" data-begin="128.300" data-dur="0.530">Being</span> <span match="seg" data-begin="128.919" data-dur="0.160">was</span> <span match="seg" data-begin="129.079" data-dur="0.539">concerned</span> <span match="seg" data-begin="129.619" data-dur="0.120">in</span> <span match="seg" data-begin="129.739" data-dur="0.290">it</span>,
+<span match="seg" data-begin="130.399" data-dur="0.160">but</span> <span match="seg" data-begin="130.560" data-dur="0.299">that</span> <span match="seg" data-begin="130.909" data-dur="0.550">possibly</span> <span match="seg" data-begin="131.459" data-dur="0.110">the</span> <span match="seg" data-begin="131.569" data-dur="0.340">happy</span> <span match="seg" data-begin="131.909" data-dur="0.750">formation</span> <span match="seg" data-begin="132.689" data-dur="0.199">and</span> <span match="seg" data-begin="132.919" data-dur="0.489">temperature</span> <span match="seg" data-begin="133.409" data-dur="0.130">of</span> <span match="seg" data-begin="133.539" data-dur="0.220">his</span> <span match="seg" data-begin="133.789" data-dur="0.450">body</span>,
+<span match="seg" data-begin="134.449" data-dur="0.429">perhaps</span> <span match="seg" data-begin="134.879" data-dur="0.240">his</span> <span match="seg" data-begin="135.119" data-dur="0.640">genius</span> <span match="seg" data-begin="135.929" data-dur="0.179">and</span> <span match="seg" data-begin="136.109" data-dur="0.060">the</span> <span match="seg" data-begin="136.169" data-dur="0.260">very</span> <span match="seg" data-begin="136.429" data-dur="0.489">cast</span> <span match="seg" data-begin="136.919" data-dur="0.099">of</span> <span match="seg" data-begin="137.019" data-dur="0.160">his</span> <span match="seg" data-begin="137.179" data-dur="0.520">mind</span>;—<span class="nomatch">and</span>,
+<span match="seg" data-begin="138.449" data-dur="0.480">for</span> <span match="seg" data-begin="139.279" data-dur="0.290">aught</span> <span match="seg" data-begin="139.570" data-dur="0.170">they</span> <span match="seg" data-begin="139.739" data-dur="0.340">knew</span> <span match="seg" data-begin="140.079" data-dur="0.089">to</span> <span match="seg" data-begin="140.169" data-dur="0.110">the</span> <span match="seg" data-begin="140.279" data-dur="0.659">contrary</span>,
+<span match="seg" data-begin="141.169" data-dur="0.310">even</span> <span match="seg" data-begin="141.480" data-dur="0.089">the</span> <span match="seg" data-begin="141.570" data-dur="0.650">fortunes</span> <span match="seg" data-begin="142.220" data-dur="0.099">of</span> <span match="seg" data-begin="142.319" data-dur="0.160">his</span> <span match="seg" data-begin="142.480" data-dur="0.280">whole</span> <span match="seg" data-begin="142.759" data-dur="0.520">house</span> <span match="seg" data-begin="143.519" data-dur="0.240">might</span> <span match="seg" data-begin="143.789" data-dur="0.240">take</span> <span match="seg" data-begin="144.029" data-dur="0.140">their</span> <span match="seg" data-begin="144.169" data-dur="0.399">turn</span> <span match="seg" data-begin="144.569" data-dur="0.220">from</span> <span class="nomatch">the</span> <span class="nomatch">humours</span> <span class="nomatch">and</span> <span class="nomatch">dispositions</span> <span class="nomatch">which</span> <span class="nomatch">were</span> <span class="nomatch">then</span> <span class="nomatch">uppermost</span>;—<span match="seg" data-begin="148.899" data-dur="0.199">Had</span> <span match="seg" data-begin="149.099" data-dur="0.160">they</span> <span match="seg" data-begin="149.259" data-dur="0.399">duly</span> <span match="seg" data-begin="149.660" data-dur="0.440">weighed</span> <span match="seg" data-begin="150.099" data-dur="0.160">and</span> <span match="seg" data-begin="150.259" data-dur="0.640">considered</span> <span match="seg" data-begin="150.929" data-dur="0.299">all</span> <span match="seg" data-begin="151.259" data-dur="0.359">this</span>,
+<span match="seg" data-begin="151.889" data-dur="0.269">and</span> <span match="seg" data-begin="152.160" data-dur="0.429">proceeded</span> <span match="seg" data-begin="152.589" data-dur="0.710">accordingly</span>,—<span match="seg" data-begin="153.819" data-dur="0.149">I</span> <span match="seg" data-begin="153.969" data-dur="0.299">am</span> <span match="seg" data-begin="154.299" data-dur="0.359">verily</span> <span match="seg" data-begin="154.660" data-dur="0.750">persuaded</span> <span match="seg" data-begin="155.599" data-dur="0.140">I</span> <span match="seg" data-begin="155.739" data-dur="0.220">should</span> <span match="seg" data-begin="155.959" data-dur="0.099">have</span> <span match="seg" data-begin="156.089" data-dur="0.240">made</span> <span match="seg" data-begin="156.370" data-dur="0.030">a</span> <span match="seg" data-begin="156.399" data-dur="0.310">quite</span> <span match="seg" data-begin="156.779" data-dur="0.399">different</span> <span match="seg" data-begin="157.179" data-dur="0.269">figure</span> <span match="seg" data-begin="157.450" data-dur="0.160">in</span> <span match="seg" data-begin="157.609" data-dur="0.099">the</span> <span match="seg" data-begin="157.709" data-dur="0.420">world</span>,
+<span match="seg" data-begin="158.309" data-dur="0.280">from</span> <span match="seg" data-begin="158.589" data-dur="0.280">that</span> <span match="seg" data-begin="158.899" data-dur="0.120">in</span> <span match="seg" data-begin="159.019" data-dur="0.250">which</span> <span match="seg" data-begin="159.269" data-dur="0.130">the</span> <span match="seg" data-begin="159.399" data-dur="0.220">reader</span> <span match="seg" data-begin="159.620" data-dur="0.199">is</span> <span match="seg" data-begin="159.819" data-dur="0.329">likely</span> <span match="seg" data-begin="160.149" data-dur="0.110">to</span> <span match="seg" data-begin="160.259" data-dur="0.250">see</span> <span match="seg" data-begin="160.509" data-dur="0.299">me</span>.—<span class="nomatch">Believe</span> <span match="seg" data-begin="162.389" data-dur="0.210">me</span>,
+<span match="seg" data-begin="162.599" data-dur="0.190">good</span> <span match="seg" data-begin="162.790" data-dur="0.420">folks</span>,
+<span match="seg" data-begin="163.609" data-dur="0.190">this</span> <span match="seg" data-begin="163.800" data-dur="0.160">is</span> <span match="seg" data-begin="163.960" data-dur="0.220">not</span> <span match="seg" data-begin="164.179" data-dur="0.260">so</span> <span match="seg" data-begin="164.439" data-dur="0.810">inconsiderable</span> <span match="seg" data-begin="165.249" data-dur="0.049">a</span> <span match="seg" data-begin="165.300" data-dur="0.280">thing</span> <span match="seg" data-begin="165.579" data-dur="0.160">as</span> <span match="seg" data-begin="165.739" data-dur="0.290">many</span> <span match="seg" data-begin="166.029" data-dur="0.089">of</span> <span match="seg" data-begin="166.179" data-dur="0.099">you</span> <span match="seg" data-begin="166.279" data-dur="0.190">may</span> <span match="seg" data-begin="166.469" data-dur="0.320">think</span> <span match="seg" data-begin="166.790" data-dur="0.229">it</span>;—<span class="nomatch">you</span> <span match="seg" data-begin="167.899" data-dur="0.199">have</span> <span match="seg" data-begin="168.099" data-dur="0.299">all</span>,
+<span match="seg" data-begin="168.399" data-dur="0.070">I</span> <span match="seg" data-begin="168.469" data-dur="0.240">dare</span> <span match="seg" data-begin="168.710" data-dur="0.380">say</span>,
+<span match="seg" data-begin="169.389" data-dur="0.310">heard</span> <span match="seg" data-begin="169.700" data-dur="0.089">of</span> <span match="seg" data-begin="169.819" data-dur="0.130">the</span> <span match="seg" data-begin="169.950" data-dur="0.390">animal</span> <span match="seg" data-begin="170.370" data-dur="0.630">spirits</span>,
+<span match="seg" data-begin="171.489" data-dur="0.190">as</span> <span match="seg" data-begin="171.679" data-dur="0.160">how</span> <span match="seg" data-begin="171.839" data-dur="0.190">they</span> <span match="seg" data-begin="172.029" data-dur="0.089">are</span> <span match="seg" data-begin="172.120" data-dur="0.760">transfused</span> <span match="seg" data-begin="172.879" data-dur="0.210">from</span> <span match="seg" data-begin="173.089" data-dur="0.370">father</span> <span match="seg" data-begin="173.460" data-dur="0.080">to</span> <span match="seg" data-begin="173.569" data-dur="0.429">son</span>,
+&<span class="nomatch">c</span>.
+&<span class="nomatch">c</span>.—<span class="nomatch">and</span> <span match="seg" data-begin="174.950" data-dur="0.110">a</span> <span match="seg" data-begin="175.720" data-dur="0.290">great</span> <span match="seg" data-begin="176.060" data-dur="0.190">deal</span> <span match="seg" data-begin="176.249" data-dur="0.110">to</span> <span match="seg" data-begin="176.389" data-dur="0.170">that</span> <span match="seg" data-begin="176.560" data-dur="0.550">purpose</span>:—<span match="seg" data-begin="177.539" data-dur="0.440">Well</span>,
+<span match="seg" data-begin="178.259" data-dur="0.120">you</span> <span match="seg" data-begin="178.379" data-dur="0.190">may</span> <span match="seg" data-begin="178.569" data-dur="0.280">take</span> <span match="seg" data-begin="178.849" data-dur="0.160">my</span> <span match="seg" data-begin="179.009" data-dur="0.470">word</span>,
+<span match="seg" data-begin="179.729" data-dur="0.149">that</span> <span match="seg" data-begin="179.880" data-dur="0.399">nine</span> <span match="seg" data-begin="180.279" data-dur="0.510">parts</span> <span match="seg" data-begin="180.819" data-dur="0.190">in</span> <span match="seg" data-begin="181.010" data-dur="0.470">ten</span> <span match="seg" data-begin="181.510" data-dur="0.160">of</span> <span match="seg" data-begin="181.670" data-dur="0.070">a</span> <span match="seg" data-begin="181.739" data-dur="0.440">man's</span> <span match="seg" data-begin="182.210" data-dur="0.530">sense</span> <span match="seg" data-begin="182.779" data-dur="0.179">or</span> <span match="seg" data-begin="182.960" data-dur="0.179">his</span> <span match="seg" data-begin="183.139" data-dur="0.610">nonsense</span>,
+<span match="seg" data-begin="184.139" data-dur="0.290">his</span> <span match="seg" data-begin="184.460" data-dur="0.620">successes</span> <span match="seg" data-begin="185.079" data-dur="0.160">and</span> <span match="seg" data-begin="185.239" data-dur="0.960">miscarriages</span> <span match="seg" data-begin="186.229" data-dur="0.170">in</span> <span match="seg" data-begin="186.399" data-dur="0.250">this</span> <span match="seg" data-begin="186.649" data-dur="0.440">world</span> <span match="seg" data-begin="187.420" data-dur="0.390">depend</span> <span match="seg" data-begin="187.809" data-dur="0.290">upon</span> <span class="nomatch">their</span> <span class="nomatch">motions</span> <span class="nomatch">and</span> <span match="seg" data-begin="188.979" data-dur="0.729">activity</span>,
+<span match="seg" data-begin="190.010" data-dur="0.160">and</span> <span match="seg" data-begin="190.170" data-dur="0.060">the</span> <span match="seg" data-begin="190.229" data-dur="0.380">different</span> <span match="seg" data-begin="190.639" data-dur="0.429">tracks</span> <span match="seg" data-begin="191.069" data-dur="0.199">and</span> <span match="seg" data-begin="191.309" data-dur="0.510">trains</span> <span match="seg" data-begin="191.819" data-dur="0.070">you</span> <span match="seg" data-begin="191.889" data-dur="0.260">put</span> <span match="seg" data-begin="192.149" data-dur="0.149">them</span> <span match="seg" data-begin="192.299" data-dur="0.329">into</span>,
+<span match="seg" data-begin="193.270" data-dur="0.170">so</span> <span match="seg" data-begin="193.439" data-dur="0.229">that</span> <span match="seg" data-begin="193.670" data-dur="0.210">when</span> <span match="seg" data-begin="193.879" data-dur="0.210">they</span> <span match="seg" data-begin="194.090" data-dur="0.080">are</span> <span match="seg" data-begin="194.170" data-dur="0.329">once</span> <span match="seg" data-begin="194.529" data-dur="0.290">set</span> <span class="nomatch">a-going</span>,
+<span match="seg" data-begin="195.989" data-dur="0.329">whether</span> <span match="seg" data-begin="196.319" data-dur="0.310">right</span> <span match="seg" data-begin="196.629" data-dur="0.179">or</span> <span match="seg" data-begin="196.809" data-dur="0.410">wrong</span>,
+'<span match="seg" data-begin="197.459" data-dur="0.220">tis</span> <span match="seg" data-begin="197.680" data-dur="0.170">not</span> <span match="seg" data-begin="197.849" data-dur="0.060">a</span> <span match="seg" data-begin="197.909" data-dur="0.538">half-penny</span> <span match="seg" data-begin="198.449" data-dur="0.550">matter</span>,—<span match="seg" data-begin="199.459" data-dur="0.310">away</span> <span match="seg" data-begin="199.799" data-dur="0.130">they</span> <span match="seg" data-begin="199.929" data-dur="0.250">go</span> <span match="seg" data-begin="200.179" data-dur="0.640">cluttering</span> <span match="seg" data-begin="200.819" data-dur="0.199">like</span> <span match="seg" data-begin="201.019" data-dur="0.389">hey-go</span> <span match="seg" data-begin="201.409" data-dur="0.420">mad</span>;
+<span match="seg" data-begin="202.230" data-dur="0.140">and</span> <span match="seg" data-begin="202.369" data-dur="0.110">by</span> <span match="seg" data-begin="202.480" data-dur="0.480">treading</span> <span match="seg" data-begin="202.959" data-dur="0.110">the</span> <span match="seg" data-begin="203.069" data-dur="0.320">same</span> <span match="seg" data-begin="203.389" data-dur="0.429">steps</span> <span match="seg" data-begin="203.949" data-dur="0.199">over</span> <span match="seg" data-begin="204.150" data-dur="0.250">and</span> <span match="seg" data-begin="204.400" data-dur="0.190">over</span> <span match="seg" data-begin="204.589" data-dur="0.550">again</span>,
+<span match="seg" data-begin="205.480" data-dur="0.149">they</span> <span match="seg" data-begin="205.629" data-dur="0.530">presently</span> <span match="seg" data-begin="206.159" data-dur="0.240">make</span> <span match="seg" data-begin="206.399" data-dur="0.060">a</span> <span match="seg" data-begin="206.459" data-dur="0.240">road</span> <span match="seg" data-begin="206.699" data-dur="0.089">of</span> <span match="seg" data-begin="206.819" data-dur="0.229">it</span>,
+<span match="seg" data-begin="207.329" data-dur="0.199">as</span> <span match="seg" data-begin="207.529" data-dur="0.480">plain</span> <span match="seg" data-begin="208.009" data-dur="0.170">and</span> <span match="seg" data-begin="208.179" data-dur="0.120">as</span> <span match="seg" data-begin="208.299" data-dur="0.489">smooth</span> <span match="seg" data-begin="208.819" data-dur="0.170">as</span> <span match="seg" data-begin="208.989" data-dur="0.060">a</span> <span match="seg" data-begin="209.049" data-dur="0.839">garden-walk</span>,
+<span match="seg" data-begin="210.419" data-dur="0.329">which</span>,
+<span match="seg" data-begin="210.829" data-dur="0.190">when</span> <span match="seg" data-begin="211.020" data-dur="0.170">they</span> <span match="seg" data-begin="211.190" data-dur="0.060">are</span> <span match="seg" data-begin="211.249" data-dur="0.310">once</span> <span match="seg" data-begin="211.559" data-dur="0.280">used</span> <span match="seg" data-begin="211.839" data-dur="0.229">to</span>,
+<span match="seg" data-begin="212.879" data-dur="0.130">the</span> <span match="seg" data-begin="213.009" data-dur="0.269">Devil</span> <span match="seg" data-begin="213.280" data-dur="0.669">himself</span> <span match="seg" data-begin="214.049" data-dur="0.690">sometimes</span> <span match="seg" data-begin="214.739" data-dur="0.229">shall</span> <span match="seg" data-begin="214.969" data-dur="0.190">not</span> <span match="seg" data-begin="215.159" data-dur="0.149">be</span> <span match="seg" data-begin="215.309" data-dur="0.190">able</span> <span match="seg" data-begin="215.499" data-dur="0.120">to</span> <span match="seg" data-begin="215.619" data-dur="0.310">drive</span> <span match="seg" data-begin="215.959" data-dur="0.149">them</span> <span match="seg" data-begin="216.110" data-dur="0.170">off</span> <span match="seg" data-begin="216.280" data-dur="0.210">it</span>.
+</p>
+<p>
+<span match="seg" data-begin="218.819" data-dur="0.199">Pray</span> <span match="seg" data-begin="219.049" data-dur="0.120">my</span> <span match="seg" data-begin="219.169" data-dur="0.450">Dear</span>,
+<span match="seg" data-begin="220.110" data-dur="0.299">quoth</span> <span match="seg" data-begin="220.409" data-dur="0.120">my</span> <span match="seg" data-begin="220.530" data-dur="0.410">mother</span>,
+<span match="seg" data-begin="221.309" data-dur="0.190">have</span> <span match="seg" data-begin="221.530" data-dur="0.089">you</span> <span match="seg" data-begin="221.619" data-dur="0.160">not</span> <span match="seg" data-begin="221.780" data-dur="0.350">forgot</span> <span match="seg" data-begin="222.159" data-dur="0.130">to</span> <span match="seg" data-begin="222.289" data-dur="0.310">wind</span> <span match="seg" data-begin="222.600" data-dur="0.120">up</span> <span match="seg" data-begin="222.759" data-dur="0.080">the</span> <span match="seg" data-begin="222.839" data-dur="0.599">clock</span>?—<span class="nomatch">Good</span> <span class="nomatch">G</span>..!
+<span match="seg" data-begin="225.950" data-dur="0.210">cried</span> <span match="seg" data-begin="226.160" data-dur="0.149">my</span> <span match="seg" data-begin="226.309" data-dur="0.459">father</span>,
+<span match="seg" data-begin="227.189" data-dur="0.429">making</span> <span match="seg" data-begin="227.620" data-dur="0.099">an</span> <span match="seg" data-begin="227.719" data-dur="0.900">exclamation</span>,
+<span match="seg" data-begin="228.750" data-dur="0.250">but</span> <span match="seg" data-begin="229.040" data-dur="0.359">taking</span> <span match="seg" data-begin="229.399" data-dur="0.250">care</span> <span match="seg" data-begin="229.649" data-dur="0.140">to</span> <span match="seg" data-begin="229.790" data-dur="0.470">moderate</span> <span match="seg" data-begin="230.259" data-dur="0.179">his</span> <span match="seg" data-begin="230.439" data-dur="0.329">voice</span> <span match="seg" data-begin="230.769" data-dur="0.110">at</span> <span match="seg" data-begin="230.879" data-dur="0.070">the</span> <span match="seg" data-begin="230.950" data-dur="0.320">same</span> <span match="seg" data-begin="231.269" data-dur="0.480">time</span>,—<span match="seg" data-begin="232.469" data-dur="0.220">Did</span> <span match="seg" data-begin="232.719" data-dur="0.450">ever</span> <span match="seg" data-begin="233.169" data-dur="0.429">woman</span>,
+<span match="seg" data-begin="233.599" data-dur="0.269">since</span> <span match="seg" data-begin="233.870" data-dur="0.110">the</span> <span match="seg" data-begin="233.979" data-dur="0.719">creation</span> <span match="seg" data-begin="234.700" data-dur="0.099">of</span> <span match="seg" data-begin="234.839" data-dur="0.110">the</span> <span match="seg" data-begin="234.950" data-dur="0.500">world</span>,
+<span match="seg" data-begin="235.659" data-dur="0.530">interrupt</span> <span match="seg" data-begin="236.189" data-dur="0.049">a</span> <span match="seg" data-begin="236.239" data-dur="0.340">man</span> <span match="seg" data-begin="236.579" data-dur="0.179">with</span> <span match="seg" data-begin="236.759" data-dur="0.350">such</span> <span match="seg" data-begin="237.109" data-dur="0.060">a</span> <span match="seg" data-begin="237.169" data-dur="0.380">silly</span> <span match="seg" data-begin="237.550" data-dur="0.640">question</span>?
+<span match="seg" data-begin="239.399" data-dur="0.240">Pray</span>,
+<span match="seg" data-begin="239.639" data-dur="0.149">what</span> <span match="seg" data-begin="239.819" data-dur="0.170">was</span> <span match="seg" data-begin="239.989" data-dur="0.120">your</span> <span match="seg" data-begin="240.109" data-dur="0.359">father</span> <span match="seg" data-begin="240.469" data-dur="0.489">saying</span>?—<span match="seg" data-begin="242.040" data-dur="0.620">Nothing</span>.
+</p>
+<p>
+<span class="nomatch">Chapter</span> <span class="nomatch">1</span>.<span class="nomatch">II</span>.
+</p>
+<p>
+—<span match="seg" data-begin="248.759" data-dur="0.340">Then</span>,
+<span match="seg" data-begin="249.129" data-dur="0.760">positively</span>,
+<span match="seg" data-begin="250.139" data-dur="0.149">there</span> <span match="seg" data-begin="250.289" data-dur="0.130">is</span> <span match="seg" data-begin="250.419" data-dur="0.440">nothing</span> <span match="seg" data-begin="250.860" data-dur="0.080">in</span> <span match="seg" data-begin="250.940" data-dur="0.099">the</span> <span match="seg" data-begin="251.039" data-dur="0.489">question</span> <span match="seg" data-begin="251.529" data-dur="0.110">that</span> <span match="seg" data-begin="251.639" data-dur="0.140">I</span> <span match="seg" data-begin="251.779" data-dur="0.240">can</span> <span match="seg" data-begin="252.020" data-dur="0.420">see</span>,
+<span match="seg" data-begin="252.579" data-dur="0.359">either</span> <span match="seg" data-begin="252.940" data-dur="0.290">good</span> <span match="seg" data-begin="253.230" data-dur="0.140">or</span> <span match="seg" data-begin="253.369" data-dur="0.190">bad</span>.—<span class="nomatch">Then</span>,
+<span match="seg" data-begin="253.560" data-dur="0.269">let</span> <span match="seg" data-begin="255.829" data-dur="0.140">me</span> <span match="seg" data-begin="255.969" data-dur="0.220">tell</span> <span match="seg" data-begin="256.190" data-dur="0.210">you</span>,
+<span match="seg" data-begin="256.399" data-dur="0.190">Sir</span>,
+<span match="seg" data-begin="257.039" data-dur="0.149">it</span> <span match="seg" data-begin="257.189" data-dur="0.199">was</span> <span match="seg" data-begin="257.389" data-dur="0.089">a</span> <span match="seg" data-begin="257.529" data-dur="0.310">very</span> <span match="seg" data-begin="257.839" data-dur="0.729">unseasonable</span> <span match="seg" data-begin="258.569" data-dur="0.489">question</span> <span match="seg" data-begin="259.059" data-dur="0.110">at</span> <span match="seg" data-begin="259.169" data-dur="0.539">least</span>,—<span match="seg" data-begin="259.969" data-dur="0.299">because</span> <span match="seg" data-begin="260.270" data-dur="0.120">it</span> <span match="seg" data-begin="260.389" data-dur="0.580">scattered</span> <span match="seg" data-begin="260.969" data-dur="0.250">and</span> <span match="seg" data-begin="261.219" data-dur="0.700">dispersed</span> <span match="seg" data-begin="261.919" data-dur="0.110">the</span> <span match="seg" data-begin="262.030" data-dur="0.420">animal</span> <span match="seg" data-begin="262.450" data-dur="0.700">spirits</span>,
+<span match="seg" data-begin="263.409" data-dur="0.210">whose</span> <span match="seg" data-begin="263.620" data-dur="0.380">business</span> <span match="seg" data-begin="263.999" data-dur="0.140">it</span> <span match="seg" data-begin="264.139" data-dur="0.229">was</span> <span match="seg" data-begin="264.369" data-dur="0.099">to</span> <span match="seg" data-begin="264.469" data-dur="0.130">have</span> <span match="seg" data-begin="264.600" data-dur="0.550">escorted</span> <span match="seg" data-begin="265.219" data-dur="0.149">and</span> <span match="seg" data-begin="265.369" data-dur="0.250">gone</span> <span match="seg" data-begin="265.690" data-dur="0.269">hand</span> <span match="seg" data-begin="265.959" data-dur="0.120">in</span> <span match="seg" data-begin="266.079" data-dur="0.489">hand</span> <span match="seg" data-begin="266.789" data-dur="0.120">with</span> <span match="seg" data-begin="266.909" data-dur="0.099">the</span> <span match="seg" data-begin="267.009" data-dur="1.020">Homunculus</span>,
+<span match="seg" data-begin="268.440" data-dur="0.199">and</span> <span match="seg" data-begin="268.639" data-dur="0.410">conducted</span> <span match="seg" data-begin="269.089" data-dur="0.269">him</span> <span match="seg" data-begin="269.360" data-dur="0.390">safe</span> <span match="seg" data-begin="269.749" data-dur="0.099">to</span> <span match="seg" data-begin="269.850" data-dur="0.140">the</span> <span match="seg" data-begin="269.989" data-dur="0.470">place</span> <span match="seg" data-begin="270.459" data-dur="0.510">destined</span> <span match="seg" data-begin="270.969" data-dur="0.130">for</span> <span match="seg" data-begin="271.100" data-dur="0.170">his</span> <span match="seg" data-begin="271.309" data-dur="0.669">reception</span>.
+</p>
+<p>
+<span match="seg" data-begin="273.649" data-dur="0.099">The</span> <span match="seg" data-begin="273.749" data-dur="0.799">Homunculus</span>,
+<span match="seg" data-begin="274.579" data-dur="0.220">Sir</span>,
+<span match="seg" data-begin="275.089" data-dur="0.179">in</span> <span match="seg" data-begin="275.270" data-dur="0.410">however</span> <span match="seg" data-begin="275.680" data-dur="0.269">low</span> <span match="seg" data-begin="275.949" data-dur="0.190">and</span> <span match="seg" data-begin="276.169" data-dur="0.420">ludicrous</span> <span match="seg" data-begin="276.589" data-dur="0.080">a</span> <span match="seg" data-begin="276.699" data-dur="0.280">light</span> <span match="seg" data-begin="277.010" data-dur="0.089">he</span> <span match="seg" data-begin="277.100" data-dur="0.199">may</span> <span match="seg" data-begin="277.300" data-dur="0.550">appear</span>,
+<span match="seg" data-begin="278.159" data-dur="0.149">in</span> <span match="seg" data-begin="278.309" data-dur="0.170">this</span> <span match="seg" data-begin="278.510" data-dur="0.299">age</span> <span match="seg" data-begin="278.809" data-dur="0.099">of</span> <span match="seg" data-begin="278.909" data-dur="0.640">levity</span>,
+<span match="seg" data-begin="279.809" data-dur="0.160">to</span> <span match="seg" data-begin="279.970" data-dur="0.120">the</span> <span match="seg" data-begin="280.089" data-dur="0.190">eye</span> <span match="seg" data-begin="280.279" data-dur="0.229">of</span> <span match="seg" data-begin="280.550" data-dur="0.530">folly</span> <span match="seg" data-begin="281.079" data-dur="0.099">or</span> <span match="seg" data-begin="281.180" data-dur="0.650">prejudice</span>;—<span class="nomatch">to</span> <span match="seg" data-begin="282.349" data-dur="0.179">the</span> <span match="seg" data-begin="282.529" data-dur="0.149">eye</span> <span match="seg" data-begin="282.680" data-dur="0.149">of</span> <span match="seg" data-begin="282.829" data-dur="0.429">reason</span> <span match="seg" data-begin="283.259" data-dur="0.140">in</span> <span match="seg" data-begin="283.400" data-dur="0.520">scientific</span> <span match="seg" data-begin="283.919" data-dur="0.599">research</span>,
+<span match="seg" data-begin="284.779" data-dur="0.130">he</span> <span match="seg" data-begin="284.909" data-dur="0.410">stands</span> <span match="seg" data-begin="285.320" data-dur="0.480">confess'd</span>—<span match="seg" data-begin="286.400" data-dur="0.089">a</span> <span match="seg" data-begin="286.489" data-dur="0.480">Being</span> <span match="seg" data-begin="286.970" data-dur="0.530">guarded</span> <span match="seg" data-begin="287.499" data-dur="0.220">and</span> <span match="seg" data-begin="287.720" data-dur="0.960">circumscribed</span> <span match="seg" data-begin="288.679" data-dur="0.220">with</span> <span match="seg" data-begin="288.929" data-dur="0.580">rights</span>.—<span class="nomatch">The</span> <span match="seg" data-begin="290.499" data-dur="0.719">minutest</span> <span match="seg" data-begin="291.220" data-dur="0.799">philosophers</span>,
+<span match="seg" data-begin="292.119" data-dur="0.199">who</span> <span match="seg" data-begin="292.319" data-dur="0.160">by</span> <span match="seg" data-begin="292.480" data-dur="0.099">the</span> <span match="seg" data-begin="292.579" data-dur="0.229">bye</span>,
+<span match="seg" data-begin="292.810" data-dur="0.160">have</span> <span match="seg" data-begin="292.999" data-dur="0.070">the</span> <span match="seg" data-begin="293.069" data-dur="0.310">most</span> <span match="seg" data-begin="293.379" data-dur="0.530">enlarged</span> <span match="seg" data-begin="293.909" data-dur="0.900">understandings</span>,
+(<span class="nomatch">their</span> <span class="nomatch">souls</span> <span class="nomatch">being</span> <span class="nomatch">inversely</span> <span class="nomatch">as</span> <span class="nomatch">their</span> <span class="nomatch">enquiries</span>) <span class="nomatch">shew</span> <span class="nomatch">us</span> <span match="seg" data-begin="298.969" data-dur="1.069">incontestably</span>,
+<span match="seg" data-begin="300.389" data-dur="0.199">that</span> <span match="seg" data-begin="300.589" data-dur="0.080">the</span> <span match="seg" data-begin="300.670" data-dur="0.859">Homunculus</span> <span match="seg" data-begin="301.689" data-dur="0.199">is</span> <span match="seg" data-begin="301.889" data-dur="0.510">created</span> <span match="seg" data-begin="302.450" data-dur="0.130">by</span> <span match="seg" data-begin="302.580" data-dur="0.120">the</span> <span match="seg" data-begin="302.700" data-dur="0.370">same</span> <span match="seg" data-begin="303.069" data-dur="0.420">hand</span>,—<span match="seg" data-begin="303.899" data-dur="0.750">engender'd</span> <span match="seg" data-begin="304.649" data-dur="0.179">in</span> <span match="seg" data-begin="304.830" data-dur="0.110">the</span> <span match="seg" data-begin="304.939" data-dur="0.399">same</span> <span match="seg" data-begin="305.339" data-dur="0.390">course</span> <span match="seg" data-begin="305.729" data-dur="0.089">of</span> <span match="seg" data-begin="305.859" data-dur="0.489">nature</span>,—<span match="seg" data-begin="306.639" data-dur="0.599">endow'd</span> <span match="seg" data-begin="307.339" data-dur="0.120">with</span> <span match="seg" data-begin="307.459" data-dur="0.080">the</span> <span match="seg" data-begin="307.539" data-dur="0.310">same</span> <span match="seg" data-begin="307.849" data-dur="0.729">loco-motive</span> <span match="seg" data-begin="308.579" data-dur="0.700">powers</span> <span match="seg" data-begin="309.509" data-dur="0.170">and</span> <span match="seg" data-begin="309.679" data-dur="0.650">faculties</span> <span match="seg" data-begin="310.370" data-dur="0.179">with</span> <span match="seg" data-begin="310.550" data-dur="0.370">us</span>:—<span match="seg" data-begin="311.909" data-dur="0.199">That</span> <span match="seg" data-begin="312.109" data-dur="0.130">he</span> <span match="seg" data-begin="312.239" data-dur="0.550">consists</span> <span match="seg" data-begin="312.790" data-dur="0.190">as</span> <span match="seg" data-begin="312.979" data-dur="0.149">we</span> <span match="seg" data-begin="313.130" data-dur="0.329">do</span>,
+<span match="seg" data-begin="313.710" data-dur="0.160">of</span> <span match="seg" data-begin="313.870" data-dur="0.560">skin</span>,
+<span match="seg" data-begin="314.460" data-dur="0.420">hair</span>,
+<span match="seg" data-begin="314.960" data-dur="0.459">fat</span>,
+<span match="seg" data-begin="315.540" data-dur="0.560">flesh</span>,
+<span match="seg" data-begin="316.219" data-dur="0.710">veins</span>,
+<span match="seg" data-begin="317.050" data-dur="0.799">arteries</span>,
+<span match="seg" data-begin="318.179" data-dur="0.510">ligaments</span>,
+<span match="seg" data-begin="318.719" data-dur="0.410">nerves</span>,
+<span match="seg" data-begin="319.130" data-dur="0.870">cartilages</span>,
+<span match="seg" data-begin="320.219" data-dur="0.420">bones</span>,
+<span match="seg" data-begin="320.639" data-dur="0.380">marrow</span>,
+<span match="seg" data-begin="321.019" data-dur="0.570">brains</span>,
+<span match="seg" data-begin="321.589" data-dur="0.650">glands</span>,
+<span match="seg" data-begin="322.269" data-dur="0.770">genitals</span>,
+<span class="nomatch">humours</span>,
+<span class="nomatch">and</span> <span class="nomatch">articulations</span>;—<span class="nomatch">is</span> <span match="seg" data-begin="326.279" data-dur="0.149">a</span> <span match="seg" data-begin="326.560" data-dur="0.350">Being</span> <span match="seg" data-begin="326.989" data-dur="0.160">of</span> <span match="seg" data-begin="327.149" data-dur="0.210">as</span> <span match="seg" data-begin="327.359" data-dur="0.240">much</span> <span match="seg" data-begin="327.600" data-dur="0.729">activity</span>,—<span match="seg" data-begin="328.860" data-dur="0.199">and</span> <span match="seg" data-begin="329.060" data-dur="0.110">in</span> <span match="seg" data-begin="329.169" data-dur="0.160">all</span> <span match="seg" data-begin="329.329" data-dur="0.420">senses</span> <span match="seg" data-begin="329.749" data-dur="0.080">of</span> <span match="seg" data-begin="329.860" data-dur="0.110">the</span> <span match="seg" data-begin="329.969" data-dur="0.520">word</span>,
+<span match="seg" data-begin="330.629" data-dur="0.179">as</span> <span match="seg" data-begin="330.810" data-dur="0.350">much</span> <span match="seg" data-begin="331.209" data-dur="0.160">and</span> <span match="seg" data-begin="331.369" data-dur="0.220">as</span> <span match="seg" data-begin="331.589" data-dur="0.550">truly</span> <span match="seg" data-begin="332.469" data-dur="0.060">our</span> <span match="seg" data-begin="332.529" data-dur="0.949">fellow-creature</span> <span match="seg" data-begin="333.699" data-dur="0.179">as</span> <span match="seg" data-begin="333.879" data-dur="0.160">my</span> <span match="seg" data-begin="334.039" data-dur="0.260">Lord</span> <span match="seg" data-begin="334.299" data-dur="0.459">Chancellor</span> <span match="seg" data-begin="334.759" data-dur="0.199">of</span> <span match="seg" data-begin="334.959" data-dur="0.470">England</span>.—<span class="nomatch">He</span> <span match="seg" data-begin="337.399" data-dur="0.149">may</span> <span match="seg" data-begin="337.549" data-dur="0.120">be</span> <span match="seg" data-begin="337.669" data-dur="0.710">benefitted</span>,—<span match="seg" data-begin="338.409" data-dur="0.220">he</span> <span match="seg" data-begin="338.629" data-dur="0.170">may</span> <span match="seg" data-begin="338.799" data-dur="0.199">be</span> <span match="seg" data-begin="338.999" data-dur="0.470">injured</span>,—<span match="seg" data-begin="339.669" data-dur="0.190">he</span> <span match="seg" data-begin="339.860" data-dur="0.229">may</span> <span match="seg" data-begin="340.089" data-dur="0.429">obtain</span> <span match="seg" data-begin="340.520" data-dur="0.610">redress</span>;
+<span match="seg" data-begin="341.659" data-dur="0.110">in</span> <span match="seg" data-begin="341.770" data-dur="0.040">a</span> <span match="seg" data-begin="341.809" data-dur="0.329">word</span>,
+<span match="seg" data-begin="342.379" data-dur="0.130">he</span> <span match="seg" data-begin="342.509" data-dur="0.179">has</span> <span match="seg" data-begin="342.690" data-dur="0.170">all</span> <span match="seg" data-begin="342.860" data-dur="0.089">the</span> <span match="seg" data-begin="342.950" data-dur="0.530">claims</span> <span match="seg" data-begin="343.479" data-dur="0.190">and</span> <span match="seg" data-begin="343.669" data-dur="0.329">rights</span> <span match="seg" data-begin="343.999" data-dur="0.099">of</span> <span match="seg" data-begin="344.100" data-dur="0.700">humanity</span>,
+<span match="seg" data-begin="345.079" data-dur="0.350">which</span> <span match="seg" data-begin="345.499" data-dur="0.420">Tully</span>,
+<span match="seg" data-begin="345.969" data-dur="0.799">Puffendorf</span>,
+<span match="seg" data-begin="347.030" data-dur="0.160">or</span> <span match="seg" data-begin="347.190" data-dur="0.080">the</span> <span match="seg" data-begin="347.270" data-dur="0.250">best</span> <span match="seg" data-begin="347.549" data-dur="0.340">ethick</span> <span match="seg" data-begin="347.889" data-dur="0.610">writers</span> <span match="seg" data-begin="348.719" data-dur="0.199">allow</span> <span match="seg" data-begin="349.059" data-dur="0.149">to</span> <span match="seg" data-begin="349.209" data-dur="0.520">arise</span> <span match="seg" data-begin="349.770" data-dur="0.170">out</span> <span match="seg" data-begin="349.940" data-dur="0.089">of</span> <span match="seg" data-begin="350.059" data-dur="0.199">that</span> <span match="seg" data-begin="350.259" data-dur="0.370">state</span> <span match="seg" data-begin="350.629" data-dur="0.179">and</span> <span match="seg" data-begin="350.809" data-dur="0.560">relation</span>.
+</p>
+<p>
+<span match="seg" data-begin="352.719" data-dur="0.140">Now</span>,
+<span match="seg" data-begin="352.859" data-dur="0.199">dear</span> <span match="seg" data-begin="353.059" data-dur="0.170">Sir</span>,
+<span match="seg" data-begin="353.529" data-dur="0.199">what</span> <span match="seg" data-begin="353.730" data-dur="0.120">if</span> <span match="seg" data-begin="353.849" data-dur="0.149">any</span> <span match="seg" data-begin="354.000" data-dur="0.520">accident</span> <span match="seg" data-begin="354.519" data-dur="0.149">had</span> <span match="seg" data-begin="354.699" data-dur="0.350">befallen</span> <span match="seg" data-begin="355.050" data-dur="0.260">him</span> <span match="seg" data-begin="355.309" data-dur="0.099">in</span> <span match="seg" data-begin="355.409" data-dur="0.229">his</span> <span match="seg" data-begin="355.639" data-dur="0.199">way</span> <span match="seg" data-begin="355.840" data-dur="0.420">alone</span>!—<span class="nomatch">or</span> <span match="seg" data-begin="357.090" data-dur="0.210">that</span> <span match="seg" data-begin="357.300" data-dur="0.280">through</span> <span match="seg" data-begin="357.579" data-dur="0.269">terror</span> <span match="seg" data-begin="357.849" data-dur="0.210">of</span> <span match="seg" data-begin="358.090" data-dur="0.250">it</span>,
+<span match="seg" data-begin="358.590" data-dur="0.560">natural</span> <span match="seg" data-begin="359.179" data-dur="0.140">to</span> <span match="seg" data-begin="359.319" data-dur="0.199">so</span> <span match="seg" data-begin="359.519" data-dur="0.269">young</span> <span match="seg" data-begin="359.819" data-dur="0.049">a</span> <span match="seg" data-begin="359.869" data-dur="0.470">traveller</span>,
+<span match="seg" data-begin="360.809" data-dur="0.120">my</span> <span match="seg" data-begin="360.929" data-dur="0.269">little</span> <span match="seg" data-begin="361.199" data-dur="0.680">Gentleman</span> <span match="seg" data-begin="361.920" data-dur="0.140">had</span> <span match="seg" data-begin="362.059" data-dur="0.260">got</span> <span match="seg" data-begin="362.319" data-dur="0.099">to</span> <span match="seg" data-begin="362.420" data-dur="0.229">his</span> <span match="seg" data-begin="362.649" data-dur="0.390">journey's</span> <span match="seg" data-begin="363.069" data-dur="0.390">end</span> <span match="seg" data-begin="363.489" data-dur="0.560">miserably</span> <span match="seg" data-begin="364.049" data-dur="0.590">spent</span>;—<span class="nomatch">his</span> <span match="seg" data-begin="365.250" data-dur="0.489">muscular</span> <span match="seg" data-begin="365.739" data-dur="0.470">strength</span> <span match="seg" data-begin="366.239" data-dur="0.229">and</span> <span match="seg" data-begin="366.469" data-dur="0.700">virility</span> <span match="seg" data-begin="367.389" data-dur="0.310">worn</span> <span match="seg" data-begin="367.699" data-dur="0.320">down</span> <span match="seg" data-begin="368.020" data-dur="0.179">to</span> <span match="seg" data-begin="368.199" data-dur="0.099">a</span> <span match="seg" data-begin="368.299" data-dur="0.459">thread</span>;—<span class="nomatch">his</span> <span match="seg" data-begin="369.469" data-dur="0.140">own</span> <span match="seg" data-begin="369.639" data-dur="0.380">animal</span> <span match="seg" data-begin="370.019" data-dur="0.580">spirits</span> <span match="seg" data-begin="370.779" data-dur="0.450">ruffled</span> <span match="seg" data-begin="371.299" data-dur="0.459">beyond</span> <span match="seg" data-begin="371.789" data-dur="0.729">description</span>,—<span match="seg" data-begin="373.169" data-dur="0.140">and</span> <span match="seg" data-begin="373.309" data-dur="0.210">that</span> <span match="seg" data-begin="373.519" data-dur="0.089">in</span> <span match="seg" data-begin="373.609" data-dur="0.229">this</span> <span match="seg" data-begin="373.869" data-dur="0.459">sad</span> <span match="seg" data-begin="374.359" data-dur="0.570">disorder'd</span> <span match="seg" data-begin="374.930" data-dur="0.350">state</span> <span match="seg" data-begin="375.279" data-dur="0.089">of</span> <span match="seg" data-begin="375.629" data-dur="0.280">nerves</span>,
+<span match="seg" data-begin="376.100" data-dur="0.149">he</span> <span match="seg" data-begin="376.249" data-dur="0.160">had</span> <span match="seg" data-begin="376.409" data-dur="0.299">lain</span> <span match="seg" data-begin="376.709" data-dur="0.310">down</span> <span match="seg" data-begin="377.019" data-dur="0.099">a</span> <span match="seg" data-begin="377.119" data-dur="0.380">prey</span> <span match="seg" data-begin="377.499" data-dur="0.130">to</span> <span match="seg" data-begin="377.659" data-dur="0.370">sudden</span> <span match="seg" data-begin="378.029" data-dur="0.610">starts</span>,
+<span match="seg" data-begin="379.019" data-dur="0.170">or</span> <span match="seg" data-begin="379.189" data-dur="0.049">a</span> <span match="seg" data-begin="379.239" data-dur="0.530">series</span> <span match="seg" data-begin="379.769" data-dur="0.160">of</span> <span match="seg" data-begin="379.970" data-dur="0.640">melancholy</span> <span match="seg" data-begin="380.609" data-dur="0.459">dreams</span> <span match="seg" data-begin="381.069" data-dur="0.179">and</span> <span match="seg" data-begin="381.249" data-dur="0.590">fancies</span>,
+<span match="seg" data-begin="382.079" data-dur="0.210">for</span> <span match="seg" data-begin="382.289" data-dur="0.659">nine</span> <span match="seg" data-begin="382.980" data-dur="0.440">long</span>,
+<span match="seg" data-begin="383.459" data-dur="0.260">long</span> <span match="seg" data-begin="383.759" data-dur="0.580">months</span> <span match="seg" data-begin="384.339" data-dur="0.560">together</span>.—<span class="nomatch">I</span> <span match="seg" data-begin="386.570" data-dur="0.429">tremble</span> <span match="seg" data-begin="386.999" data-dur="0.140">to</span> <span match="seg" data-begin="387.140" data-dur="0.350">think</span> <span match="seg" data-begin="387.489" data-dur="0.160">what</span> <span match="seg" data-begin="387.650" data-dur="0.060">a</span> <span match="seg" data-begin="387.709" data-dur="0.650">foundation</span> <span match="seg" data-begin="388.359" data-dur="0.149">had</span> <span match="seg" data-begin="388.539" data-dur="0.140">been</span> <span match="seg" data-begin="388.730" data-dur="0.370">laid</span> <span match="seg" data-begin="389.310" data-dur="0.199">for</span> <span match="seg" data-begin="389.509" data-dur="0.060">a</span> <span match="seg" data-begin="389.569" data-dur="0.580">thousand</span> <span match="seg" data-begin="390.189" data-dur="0.810">weaknesses</span> <span class="nomatch">both</span> <span class="nomatch">of</span> <span match="seg" data-begin="391.619" data-dur="0.350">body</span> <span match="seg" data-begin="391.970" data-dur="0.229">and</span> <span match="seg" data-begin="392.249" data-dur="0.470">mind</span>,
+<span match="seg" data-begin="393.099" data-dur="0.229">which</span> <span match="seg" data-begin="393.329" data-dur="0.179">no</span> <span match="seg" data-begin="393.509" data-dur="0.380">skill</span> <span match="seg" data-begin="393.890" data-dur="0.080">of</span> <span match="seg" data-begin="394.019" data-dur="0.089">the</span> <span match="seg" data-begin="394.109" data-dur="0.530">physician</span> <span match="seg" data-begin="394.669" data-dur="0.229">or</span> <span match="seg" data-begin="394.899" data-dur="0.110">the</span> <span match="seg" data-begin="395.009" data-dur="0.659">philosopher</span> <span match="seg" data-begin="395.949" data-dur="0.170">could</span> <span match="seg" data-begin="396.149" data-dur="0.260">ever</span> <span match="seg" data-begin="396.439" data-dur="0.570">afterwards</span> <span match="seg" data-begin="397.009" data-dur="0.149">have</span> <span match="seg" data-begin="397.159" data-dur="0.290">set</span> <span match="seg" data-begin="397.449" data-dur="0.530">thoroughly</span> <span match="seg" data-begin="397.979" data-dur="0.179">to</span> <span match="seg" data-begin="398.159" data-dur="0.470">rights</span>.
+</p>
+<p>
+<span class="nomatch">Chapter</span> <span class="nomatch">1</span>.<span class="nomatch">III</span>.
+</p>
+<p>
+<span match="seg" data-begin="404.669" data-dur="0.130">To</span> <span match="seg" data-begin="404.799" data-dur="0.130">my</span> <span match="seg" data-begin="404.929" data-dur="0.510">uncle</span> <span class="nomatch">Mr</span>.
+<span match="seg" data-begin="405.839" data-dur="0.390">Toby</span> <span match="seg" data-begin="406.229" data-dur="0.580">Shandy</span> <span match="seg" data-begin="407.249" data-dur="0.120">do</span> <span match="seg" data-begin="407.370" data-dur="0.110">I</span> <span match="seg" data-begin="407.479" data-dur="0.380">stand</span> <span match="seg" data-begin="407.859" data-dur="0.520">indebted</span> <span match="seg" data-begin="408.379" data-dur="0.170">for</span> <span match="seg" data-begin="408.549" data-dur="0.080">the</span> <span match="seg" data-begin="408.629" data-dur="0.620">preceding</span> <span match="seg" data-begin="409.249" data-dur="0.659">anecdote</span>,
+<span match="seg" data-begin="410.239" data-dur="0.149">to</span> <span match="seg" data-begin="410.390" data-dur="0.179">whom</span> <span match="seg" data-begin="410.569" data-dur="0.140">my</span> <span match="seg" data-begin="410.710" data-dur="0.550">father</span>,
+<span match="seg" data-begin="411.609" data-dur="0.110">who</span> <span match="seg" data-begin="411.720" data-dur="0.149">was</span> <span match="seg" data-begin="411.870" data-dur="0.130">an</span> <span match="seg" data-begin="411.999" data-dur="0.489">excellent</span> <span match="seg" data-begin="412.489" data-dur="0.470">natural</span> <span match="seg" data-begin="412.960" data-dur="0.640">philosopher</span>,
+<span match="seg" data-begin="413.839" data-dur="0.179">and</span> <span match="seg" data-begin="414.019" data-dur="0.299">much</span> <span match="seg" data-begin="414.349" data-dur="0.320">given</span> <span match="seg" data-begin="414.669" data-dur="0.120">to</span> <span match="seg" data-begin="414.790" data-dur="0.370">close</span> <span match="seg" data-begin="415.159" data-dur="0.550">reasoning</span> <span match="seg" data-begin="415.710" data-dur="0.269">upon</span> <span match="seg" data-begin="415.979" data-dur="0.089">the</span> <span match="seg" data-begin="416.069" data-dur="0.550">smallest</span> <span match="seg" data-begin="416.620" data-dur="0.520">matters</span>,
+<span match="seg" data-begin="417.589" data-dur="0.190">had</span> <span match="seg" data-begin="417.779" data-dur="0.450">oft</span>,
+<span match="seg" data-begin="418.380" data-dur="0.210">and</span> <span match="seg" data-begin="418.589" data-dur="0.530">heavily</span> <span match="seg" data-begin="419.149" data-dur="0.580">complained</span> <span match="seg" data-begin="419.729" data-dur="0.080">of</span> <span match="seg" data-begin="419.839" data-dur="0.120">the</span> <span match="seg" data-begin="419.960" data-dur="0.520">injury</span>;
+<span match="seg" data-begin="420.999" data-dur="0.149">but</span> <span match="seg" data-begin="421.200" data-dur="0.250">once</span> <span match="seg" data-begin="421.450" data-dur="0.210">more</span> <span match="seg" data-begin="421.659" data-dur="0.810">particularly</span>,
+<span match="seg" data-begin="422.849" data-dur="0.170">as</span> <span match="seg" data-begin="423.019" data-dur="0.149">my</span> <span match="seg" data-begin="423.219" data-dur="0.220">uncle</span> <span match="seg" data-begin="423.439" data-dur="0.410">Toby</span> <span match="seg" data-begin="423.849" data-dur="0.290">well</span> <span match="seg" data-begin="424.139" data-dur="0.650">remember'd</span>,
+<span match="seg" data-begin="425.229" data-dur="0.329">upon</span> <span match="seg" data-begin="425.559" data-dur="0.140">his</span> <span match="seg" data-begin="425.699" data-dur="0.530">observing</span> <span match="seg" data-begin="426.229" data-dur="0.040">a</span> <span match="seg" data-begin="426.269" data-dur="0.260">most</span> <span match="seg" data-begin="426.579" data-dur="0.750">unaccountable</span> <span match="seg" data-begin="427.379" data-dur="0.750">obliquity</span>,
+(<span class="nomatch">as</span> <span class="nomatch">he</span> <span class="nomatch">call'd</span> <span class="nomatch">it</span>) <span match="seg" data-begin="429.589" data-dur="0.140">in</span> <span match="seg" data-begin="429.729" data-dur="0.170">my</span> <span match="seg" data-begin="429.900" data-dur="0.310">manner</span> <span match="seg" data-begin="430.209" data-dur="0.140">of</span> <span match="seg" data-begin="430.349" data-dur="0.370">setting</span> <span match="seg" data-begin="430.719" data-dur="0.089">up</span> <span match="seg" data-begin="430.809" data-dur="0.140">my</span> <span match="seg" data-begin="430.979" data-dur="0.440">top</span>,
+<span match="seg" data-begin="431.689" data-dur="0.160">and</span> <span match="seg" data-begin="431.849" data-dur="0.599">justifying</span> <span match="seg" data-begin="432.449" data-dur="0.099">the</span> <span match="seg" data-begin="432.549" data-dur="0.580">principles</span> <span match="seg" data-begin="433.129" data-dur="0.290">upon</span> <span match="seg" data-begin="433.419" data-dur="0.199">which</span> <span match="seg" data-begin="433.619" data-dur="0.070">I</span> <span match="seg" data-begin="433.689" data-dur="0.220">had</span> <span match="seg" data-begin="433.909" data-dur="0.229">done</span> <span match="seg" data-begin="434.169" data-dur="0.179">it</span>,—<span match="seg" data-begin="434.939" data-dur="0.149">the</span> <span match="seg" data-begin="435.090" data-dur="0.220">old</span> <span match="seg" data-begin="435.309" data-dur="0.500">gentleman</span> <span match="seg" data-begin="435.809" data-dur="0.250">shook</span> <span match="seg" data-begin="436.059" data-dur="0.160">his</span> <span match="seg" data-begin="436.219" data-dur="0.440">head</span>,
+<span match="seg" data-begin="436.959" data-dur="0.170">and</span> <span match="seg" data-begin="437.129" data-dur="0.110">in</span> <span match="seg" data-begin="437.240" data-dur="0.120">a</span> <span match="seg" data-begin="437.359" data-dur="0.269">tone</span> <span match="seg" data-begin="437.629" data-dur="0.350">more</span> <span match="seg" data-begin="437.979" data-dur="0.539">expressive</span> <span match="seg" data-begin="438.559" data-dur="0.120">by</span> <span match="seg" data-begin="438.750" data-dur="0.340">half</span> <span match="seg" data-begin="439.089" data-dur="0.080">of</span> <span match="seg" data-begin="439.199" data-dur="0.560">sorrow</span> <span match="seg" data-begin="439.759" data-dur="0.170">than</span> <span match="seg" data-begin="439.969" data-dur="0.650">reproach</span>,—<span match="seg" data-begin="441.160" data-dur="0.160">he</span> <span match="seg" data-begin="441.320" data-dur="0.359">said</span> <span match="seg" data-begin="441.709" data-dur="0.179">his</span> <span match="seg" data-begin="441.889" data-dur="0.269">heart</span> <span match="seg" data-begin="442.209" data-dur="0.240">all</span> <span match="seg" data-begin="442.449" data-dur="0.310">along</span> <span match="seg" data-begin="442.759" data-dur="0.659">foreboded</span>,
+<span match="seg" data-begin="444.009" data-dur="0.140">and</span> <span match="seg" data-begin="444.150" data-dur="0.110">he</span> <span match="seg" data-begin="444.259" data-dur="0.199">saw</span> <span match="seg" data-begin="444.459" data-dur="0.130">it</span> <span match="seg" data-begin="444.589" data-dur="0.520">verified</span> <span match="seg" data-begin="445.109" data-dur="0.120">in</span> <span match="seg" data-begin="445.229" data-dur="0.399">this</span>,
+<span match="seg" data-begin="445.849" data-dur="0.190">and</span> <span match="seg" data-begin="446.039" data-dur="0.160">from</span> <span match="seg" data-begin="446.199" data-dur="0.060">a</span> <span match="seg" data-begin="446.259" data-dur="0.530">thousand</span> <span match="seg" data-begin="446.789" data-dur="0.220">other</span> <span match="seg" data-begin="447.009" data-dur="0.740">observations</span> <span match="seg" data-begin="447.749" data-dur="0.110">he</span> <span match="seg" data-begin="447.859" data-dur="0.170">had</span> <span match="seg" data-begin="448.029" data-dur="0.210">made</span> <span match="seg" data-begin="448.240" data-dur="0.280">upon</span> <span match="seg" data-begin="448.549" data-dur="0.269">me</span>,
+<span match="seg" data-begin="449.760" data-dur="0.140">That</span> <span match="seg" data-begin="449.899" data-dur="0.070">I</span> <span match="seg" data-begin="449.970" data-dur="0.269">should</span> <span match="seg" data-begin="450.240" data-dur="0.280">neither</span> <span match="seg" data-begin="450.519" data-dur="0.340">think</span> <span match="seg" data-begin="450.919" data-dur="0.220">nor</span> <span match="seg" data-begin="451.169" data-dur="0.429">act</span> <span match="seg" data-begin="451.959" data-dur="0.210">like</span> <span match="seg" data-begin="452.209" data-dur="0.269">any</span> <span match="seg" data-begin="452.479" data-dur="0.160">other</span> <span match="seg" data-begin="452.640" data-dur="0.399">man's</span> <span match="seg" data-begin="453.039" data-dur="0.520">child</span>:—<span match="seg" data-begin="453.909" data-dur="0.530">But</span> <span match="seg" data-begin="454.470" data-dur="0.440">alas</span>!
+<span match="seg" data-begin="455.220" data-dur="0.510">continued</span> <span match="seg" data-begin="455.729" data-dur="0.420">he</span>,
+<span match="seg" data-begin="456.349" data-dur="0.440">shaking</span> <span match="seg" data-begin="456.789" data-dur="0.170">his</span> <span match="seg" data-begin="456.959" data-dur="0.269">head</span> <span match="seg" data-begin="457.229" data-dur="0.049">a</span> <span match="seg" data-begin="457.279" data-dur="0.420">second</span> <span match="seg" data-begin="457.769" data-dur="0.440">time</span>,
+<span match="seg" data-begin="458.399" data-dur="0.240">and</span> <span match="seg" data-begin="458.639" data-dur="0.399">wiping</span> <span match="seg" data-begin="459.039" data-dur="0.299">away</span> <span match="seg" data-begin="459.339" data-dur="0.049">a</span> <span match="seg" data-begin="459.390" data-dur="0.489">tear</span> <span match="seg" data-begin="459.909" data-dur="0.290">which</span> <span match="seg" data-begin="460.199" data-dur="0.170">was</span> <span match="seg" data-begin="460.369" data-dur="0.459">trickling</span> <span match="seg" data-begin="460.829" data-dur="0.240">down</span> <span match="seg" data-begin="461.070" data-dur="0.190">his</span> <span match="seg" data-begin="461.289" data-dur="0.500">cheeks</span>,
+<span match="seg" data-begin="462.329" data-dur="0.149">My</span> <span match="seg" data-begin="462.480" data-dur="0.610">Tristram's</span> <span match="seg" data-begin="463.129" data-dur="0.789">misfortunes</span> <span match="seg" data-begin="463.949" data-dur="0.399">began</span> <span match="seg" data-begin="464.379" data-dur="0.350">nine</span> <span match="seg" data-begin="464.730" data-dur="0.500">months</span> <span match="seg" data-begin="465.269" data-dur="0.290">before</span> <span match="seg" data-begin="465.669" data-dur="0.260">ever</span> <span class="nomatch">he</span> <span match="seg" data-begin="465.929" data-dur="0.269">came</span> <span match="seg" data-begin="466.199" data-dur="0.229">into</span> <span match="seg" data-begin="466.429" data-dur="0.099">the</span> <span match="seg" data-begin="466.529" data-dur="0.470">world</span>.
+</p>
+<p>
+—<span match="seg" data-begin="469.060" data-dur="0.210">My</span> <span match="seg" data-begin="469.269" data-dur="0.470">mother</span>,
+<span match="seg" data-begin="469.909" data-dur="0.120">who</span> <span match="seg" data-begin="470.029" data-dur="0.240">was</span> <span match="seg" data-begin="470.269" data-dur="0.350">sitting</span> <span match="seg" data-begin="470.619" data-dur="0.399">by</span>,
+<span match="seg" data-begin="471.300" data-dur="0.280">look'd</span> <span match="seg" data-begin="471.579" data-dur="0.269">up</span>,
+<span match="seg" data-begin="471.929" data-dur="0.179">but</span> <span match="seg" data-begin="472.109" data-dur="0.199">she</span> <span match="seg" data-begin="472.310" data-dur="0.320">knew</span> <span match="seg" data-begin="472.629" data-dur="0.120">no</span> <span match="seg" data-begin="472.749" data-dur="0.269">more</span> <span match="seg" data-begin="473.019" data-dur="0.170">than</span> <span match="seg" data-begin="473.189" data-dur="0.120">her</span> <span match="seg" data-begin="473.310" data-dur="0.680">backside</span> <span match="seg" data-begin="474.019" data-dur="0.199">what</span> <span match="seg" data-begin="474.220" data-dur="0.120">my</span> <span match="seg" data-begin="474.339" data-dur="0.350">father</span> <span match="seg" data-begin="474.689" data-dur="0.450">meant</span>,—<span match="seg" data-begin="475.849" data-dur="0.440">but</span> <span match="seg" data-begin="476.289" data-dur="0.170">my</span> <span match="seg" data-begin="476.459" data-dur="0.610">uncle</span>,
+<span class="nomatch">Mr</span>.
+<span match="seg" data-begin="477.409" data-dur="0.420">Toby</span> <span match="seg" data-begin="477.829" data-dur="0.599">Shandy</span>,
+<span match="seg" data-begin="478.770" data-dur="0.120">who</span> <span match="seg" data-begin="478.890" data-dur="0.179">had</span> <span match="seg" data-begin="479.100" data-dur="0.149">been</span> <span match="seg" data-begin="479.249" data-dur="0.390">often</span> <span match="seg" data-begin="479.640" data-dur="0.650">informed</span> <span match="seg" data-begin="480.289" data-dur="0.070">of</span> <span match="seg" data-begin="480.409" data-dur="0.140">the</span> <span match="seg" data-begin="480.550" data-dur="0.459">affair</span>,—<span match="seg" data-begin="481.510" data-dur="0.510">understood</span> <span match="seg" data-begin="482.019" data-dur="0.199">him</span> <span match="seg" data-begin="482.220" data-dur="0.350">very</span> <span match="seg" data-begin="482.569" data-dur="0.370">well</span>.
+</p>
+            </div>
+
+        </article>
+
+        <footer class="credits">
+            <p>阅读外语经典，了解世界文化，复兴中华文明</p>
+            <p>听语族外语软件工作室出品 湖南长沙 联系人：李涉川 微信 Tingyuzu.</p>
+        </footer>
+
+    </body>
+<script type="text/javascript">
+/**
+ * HTML5 Audio Read-Along
+ * @author Weston Ruter, X-Team
+ * @license MIT/GPL
+ * https://github.com/westonruter/html5-audio-read-along
+ */
+var ReadAlong = {
+    text_element: null,
+    audio_element: null,
+    autofocus_current_word: true,
+
+    words: [],
+
+    init: function (args) {
+        var name;
+        for (name in args) {
+            this[name] = args[name];
+        }
+        this.generateWordList();
+        this.addEventListeners();
+        this.selectCurrentWord();
+    },
+
+    /**
+     * Build an index of all of the words that can be read along with their begin,
+     * and end times, and the DOM element representing the word.
+     */
+    generateWordList: function () {
+        var word_els = this.text_element.querySelectorAll('[data-begin]');
+        this.words = Array.prototype.map.call(word_els, function (word_el, index) {
+            var word = {
+                'begin': parseFloat(word_el.dataset.begin),
+                'dur': parseFloat(word_el.dataset.dur),
+                'element': word_el
+            };
+            word_el.tabIndex = 0; // to make it focusable/interactive
+            word.index = index;
+            word.end = word.begin + word.dur;
+            word_el.dataset.index = word.index;
+            return word;
+        });
+    },
+
+    /**
+     * From the audio's currentTime, find the word that is currently being played
+     * @todo this would better be implemented as a binary search
+     */
+    getCurrentWord: function () {
+        var i;
+        var len;
+        var is_current_word;
+        var word = null;
+        for (i = 0, len = this.words.length; i < len; i += 1) {
+            is_current_word = (
+                (
+                    this.audio_element.currentTime >= this.words[i].begin
+                    &&
+                    this.audio_element.currentTime < this.words[i].end
+                )
+                ||
+                (this.audio_element.currentTime < this.words[i].begin)
+            );
+            if (is_current_word) {
+                word = this.words[i];
+                break;
+            }
+        }
+
+        if (!word) {
+            throw Error('Unable to find current word and we should always be able to.');
+        }
+        return word;
+    },
+
+    _current_end_select_timeout_id: null,
+    _current_next_select_timeout_id: null,
+
+    /**
+     * Select the current word and set timeout to select the next one if playing
+     */
+    selectCurrentWord: function() {
+        var that = this;
+        var current_word = this.getCurrentWord();
+        var is_playing = !this.audio_element.paused;
+
+        if (!current_word.element.classList.contains('speaking')) {
+            this.removeWordSelection();
+            current_word.element.classList.add('speaking');
+            if (this.autofocus_current_word) {
+                current_word.element.focus();
+            }
+        }
+
+        /**
+         * The timeupdate Media event does not fire repeatedly enough to be
+         * able to rely on for updating the selected word (it hovers around
+         * 250ms resolution), so we add a setTimeout with the exact duration
+         * of the word.
+         */
+        if (is_playing) {
+            // Remove word selection when the word ceases to be spoken
+            var seconds_until_this_word_ends = current_word.end - this.audio_element.currentTime; // Note: 'word' not 'world'! ;-)
+            if (typeof this.audio_element === 'number' && !isNaN(this.audio_element)) {
+                seconds_until_this_word_ends *= 1.0/this.audio_element.playbackRate;
+            }
+            clearTimeout(this._current_end_select_timeout_id);
+            this._current_end_select_timeout_id = setTimeout(
+                function () {
+                    if (!that.audio_element.paused) { // we always want to have a word selected while paused
+                        current_word.element.classList.remove('speaking');
+                    }
+                },
+                Math.max(seconds_until_this_word_ends * 1000, 0)
+            );
+
+            // Automatically trigger selectCurrentWord when the next word begins
+            var next_word = this.words[current_word.index + 1];
+            if (next_word) {
+                var seconds_until_next_word_begins = next_word.begin - this.audio_element.currentTime;
+
+                var orig_seconds_until_next_word_begins = seconds_until_next_word_begins; // temp
+                if (typeof this.audio_element === 'number' && !isNaN(this.audio_element)) {
+                    seconds_until_next_word_begins *= 1.0/this.audio_element.playbackRate;
+                }
+                clearTimeout(this._current_next_select_timeout_id);
+                this._current_next_select_timeout_id = setTimeout(
+                    function () {
+                        that.selectCurrentWord();
+                    },
+                    Math.max(seconds_until_next_word_begins * 1000, 0)
+                );
+            }
+        }
+
+    },
+
+    removeWordSelection: function() {
+        // There should only be one element with .speaking, but selecting all for good measure
+        var spoken_word_els = this.text_element.querySelectorAll('span[data-begin].speaking');
+        Array.prototype.forEach.call(spoken_word_els, function (spoken_word_el) {
+            spoken_word_el.classList.remove('speaking');
+        });
+    },
+
+
+    addEventListeners: function () {
+        var that = this;
+
+        /**
+         * Select next word (at that.audio_element.currentTime) when playing begins
+         */
+        that.audio_element.addEventListener('play', function (e) {
+            that.selectCurrentWord();
+            that.text_element.classList.add('speaking');
+        }, false);
+
+        /**
+         * Abandon seeking the next word because we're paused
+         */
+        that.audio_element.addEventListener('pause', function (e) {
+            that.selectCurrentWord(); // We always want a word to be selected
+            that.text_element.classList.remove('speaking');
+        }, false);
+
+        /**
+         * Seek by selecting a word (event delegation)
+         */
+        function on_select_word_el(e) {
+            if (!e.target.dataset.begin) {
+                return;
+            }
+            e.preventDefault();
+
+            var i = e.target.dataset.index;
+            that.audio_element.currentTime = that.words[i].begin + 0.01; //Note: times apparently cannot be exactly set and sometimes select too early
+            that.selectCurrentWord();
+        }
+        that.text_element.addEventListener('click', on_select_word_el, false);
+        that.text_element.addEventListener('keypress', function (e) {
+            if ( (e.charCode || e.keyCode) === 13 /*Enter*/) {
+                on_select_word_el.call(this, e);
+            }
+        }, false);
+
+        /**
+         * Spacebar toggles playback
+         */
+        document.addEventListener('keypress', function (e) {
+            if ( (e.charCode || e.keyCode) === 32 /*Space*/) {
+                e.preventDefault();
+                if (that.audio_element.paused) {
+                    that.audio_element.play();
+                }
+                else {
+                    that.audio_element.pause();
+                }
+            }
+        }, false);
+
+        /**
+         * First click handler sets currentTime to the word, and second click
+         * here then causes it to play.
+         * @todo Should it stop playing once the duration is over?
+         */
+        that.text_element.addEventListener('dblclick', function (e) {
+            e.preventDefault();
+            that.audio_element.play();
+        }, false);
+
+        /**
+         * Select a word when seeking
+         */
+        that.audio_element.addEventListener('seeked', function (e) {
+            that.selectCurrentWord();
+
+            /**
+             * Address probem with Chrome where sometimes it seems to get stuck upon seeked:
+             * http://code.google.com/p/chromium/issues/detail?id=99749
+             */
+            var audio_element = this;
+            if (!audio_element.paused) {
+                var previousTime = audio_element.currentTime;
+                setTimeout(function () {
+                    if (!audio_element.paused && previousTime === audio_element.currentTime) {
+                        audio_element.currentTime += 0.01; // Attempt to unstick
+                    }
+                }, 500);
+            }
+        }, false);
+
+        /**
+         * Select a word when seeking
+         */
+        that.audio_element.addEventListener('ratechange', function (e) {
+            that.selectCurrentWord();
+        }, false);
+    }
+};
+</script>
+<script type="text/javascript">
+/*global ReadAlong */
+window.addEventListener('load', function (e) {
+    try {
+        var args = {
+            text_element: document.getElementById('passage-text'),
+            audio_element: document.getElementById('passage-audio'),
+            autofocus_current_word: document.getElementById('autofocus-current-word').checked
+        };
+
+        if (!args.audio_element.canPlayType) {
+            // No error messaging is needed because error message appears in <audio> fallback
+            throw new Error('HTML5 Audio not supported');
+        }
+        if (args.audio_element.networkState === args.audio_element.NETWORK_NO_SOURCE) {
+            document.querySelector('.passage-audio-unavailable').hidden = false;
+            throw new Error('Cannot play any of the available sources');
+        }
+
+        var supports_playback_rate = (function (audio) {
+            if (typeof audio.playbackRate !== 'number' || isNaN(audio.playbackRate)) {
+                return false;
+            }
+
+            // For Opera, since it doesn't currently support playbackRate and yet
+            // has it defined as 1.0, we can detect Opera support by changing
+            // the playbackRate and see if the change sticks.
+            var original_playback_rate = audio.playbackRate;
+            audio.playbackRate += 1.0;
+            var is_playback_rate_changed = (original_playback_rate !== audio.playbackRate);
+            audio.playbackRate = original_playback_rate;
+            return is_playback_rate_changed;
+        }(args.audio_element));
+
+        if (supports_playback_rate) {
+            var rate_range_element = document.getElementById('playback-rate');
+            rate_range_element.disabled = false;
+            rate_range_element.addEventListener('change', function (e) {
+                args.audio_element.playbackRate = this.valueAsNumber;
+            }, false);
+        }
+        else {
+            document.querySelector('.playback-rate-unavailable').hidden = false;
+        }
+
+        ReadAlong.init(args);
+
+        document.getElementById('autofocus-current-word').addEventListener('change', function (e) {
+            ReadAlong.autofocus_current_word = this.checked;
+        }, false);
+
+        document.querySelector('.passage-audio').hidden = false;
+        if (supports_playback_rate) {
+            document.querySelector('.playback-rate').hidden = false;
+        }
+        document.querySelector('.autofocus-current-word').hidden = false;
+    }
+    catch (err) {
+        console.error(err);
+    }
+    document.body.classList.add('initialized');
+    document.querySelector('.loading').hidden = true;
+}, false);
+</script>
+</html>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://westonruter.github.io/html5-audio-read-along/ -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>figureinthecarpet_01_james_64kb - 听语族</title>
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<style>
+html {
+    background: #333;
+    font-family: Verdana, sans-serif;
+}
+body {
+    padding: 0;
+    margin: 5px;
+}
+article {
+    background: white;
+    border-radius: 1em;
+    margin-top: 130px;
+    padding: 1em;
+}
+a {
+    color: #0E2560;
+}
+h1 {
+    font-size: 14pt;
+    white-space: nowrap;
+    word-wrap: keep-all;
+}
+h2 {
+    margin-bottom: 1em;
+}
+#passage-text.speaking {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+q {
+    quotes: "“" "”" "‘" "’";
+}
+.section-heading {
+    display: none;
+}
+.passage p {
+    line-height: 1.4em;
+}
+.verse-start {
+    line-height: 0;
+}
+.initialized span[data-begin]:focus,
+.initialized span[data-begin]:hover {
+    background-color: #FFFFCA;
+    box-shadow: 0px 0px 4px #FFFFCA;
+}
+.initialized span[data-begin].speaking {
+    background-color: yellow;
+    box-shadow: 0px 0px 4px yellow;
+}
+.initialized span[data-begin] {
+    cursor: pointer;
+}
+.initialized span.nomatch {
+    background-color: lightgray;
+    color: purple;
+}
+.error {
+    color: red;
+}
+
+article > footer {
+    border-top: solid 1px gray;
+    padding-top: 1em;
+    margin-top: 1em;
+}
+
+footer {
+    margin-bottom: 0.5em;
+    line-height: 1.4em;
+    font-size: small;
+}
+footer img {
+    vertical-align: text-bottom;
+}
+
+header {
+    width: 100%;
+    color: #cce;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    text-align: center;
+}
+header h1 {
+    color: #cce;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+header .passage-audio {
+    width: 100%;
+    text-align: center;
+}
+header .passage-audio #passage-audio {
+    width: 100%;
+}
+header .passage-control {
+    display: block;
+    width: 520px;
+    height: 40px;
+    margin: 5px auto 0 auto;
+}
+header .playback-rate {
+    height: 40px;
+    padding: 0px 0px 0px 6px;
+    display: block;
+    float: left;
+}
+header .autofocus-current-word {
+    height: 40px;
+    padding: 0px 0px 0px 6px;
+    display: block;
+    float: left;
+}
+header .playback-rate label,
+header .playback-rate output,
+header .autofocus-current-word label,
+header .autofocus-current-word input {
+    vertical-align: middle;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+body.sticky-header {
+    padding-top: 10px;
+}
+body.sticky-header header {
+    background-color: rgba(127, 127, 127, 0.9);
+}
+body.sticky-header header h1 {
+    display: none;
+}
+body.sticky-header header .passage-audio {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+body.sticky-header header .passage-control {
+    width: 240px;
+}
+body.sticky-header header .playback-rate {
+}
+body.sticky-header header .playback-rate label,
+body.sticky-header header .playback-rate output {
+    display: none;
+}
+body.sticky-header header .autofocus-current-word {
+}
+body.sticky-header header .autofocus-current-word label {
+    display: none;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 130px;
+    border-radius: 10px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 130px;
+    height: 15px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112; /*轨道内置阴影效果*/
+    border-radius: 10px; /*将轨道设为圆角的*/
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-ms-track {
+    width: 130px;
+    cursor: pointer;
+    background: transparent;;
+    border-color: transparent; /*去除原有边框*/
+    color: transparent; /*去除轨道内的竖线*/
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 25px;
+    width: 25px;
+    margin-top: -5px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #ffffff;
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+}
+input[type=range]::-moz-range-progress {
+    background: linear-gradient(to right, #059CFA, white 100%, white);
+    height: 13px;
+    border-radius: 10px;
+}
+input[type=range]::-ms-track {
+    height: 25px;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px #def3f8, inset 0 .125em .125em #0d1112;
+    border-color: transparent; /*去除原有边框*/
+    color: transparent; /*去除轨道内的竖线*/
+}
+input[type=range]::-ms-thumb {
+    border: solid 0.125em rgba(205, 224, 230, 0.5);
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background: #ffffff;
+    margin-top: -5px;
+    box-shadow: 0 .125em .125em #3b4547;
+}
+input[type=range]::-ms-fill-lower {
+    /*进度条已填充的部分*/
+    height: 22px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #059CFA, white 100%, white);
+}
+input[type=range]::-ms-fill-upper {
+    /*进度条未填充的部分*/
+    height: 22px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: linear-gradient(to right, #059CFA, white 100%, white);
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ffffff;
+}
+
+.mui-switch {
+    width: 58px;
+    height: 15px;
+    position: relative;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none;
+}
+.mui-switch:before {
+    content: '';
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: -6px;
+    left: 0;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.mui-switch:checked {
+    border-color: #64bd63;
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63;
+}
+.mui-switch:checked:before {
+    left: 31px;
+}
+.mui-switch.mui-switch-animbg {
+    transition: background-color ease 0.4s;
+}
+.mui-switch.mui-switch-animbg:before {
+    transition: left 0.3s;
+}
+.mui-switch.mui-switch-animbg:checked {
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #64bd63;
+    transition: border-color 0.4s, background-color ease 0.4s;
+}
+.mui-switch.mui-switch-animbg:checked:before {
+    transition: left 0.3s;
+}
+.mui-switch.mui-switch-anim {
+    transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+}
+.mui-switch.mui-switch-anim:before {
+    transition: left 0.3s;
+}
+.mui-switch.mui-switch-anim:checked {
+    box-shadow: #64bd63 0 0 0 16px inset;
+    background-color: #64bd63;
+    transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
+}
+.mui-switch.mui-switch-anim:checked:before {
+    transition: left 0.3s;
+}
+</style>
+    </head>
+    <body class="initialized">
+
+        <header>
+            <h1>听语族: figureinthecarpet_01_james_64kb</h1>
+
+            <div class="passage-audio">
+                <audio id="passage-audio" controls="">
+                    <!-- @todo WebM? -->
+                    <source src="figureinthecarpet_01_james_64kb.mp3" type="audio/mp3">
+                    <em class="error"><strong>Error:</strong> Your browser doesn't appear to support HTML5 Audio.</em>
+                </audio>
+            </div>
+
+            <div class="passage-control">
+                <div class="playback-rate" title="Note that increaseing the reading rate will decrease accuracy of word highlights">
+                    <label for="playback-rate">语速:</label>
+                    <input id="playback-rate" type="range" min="0.5" max="2.0" value="1.0" step="0.1" onchange="document.querySelector('#playback-rate-curr').innerText = 'x' + String(Math.round(this.valueAsNumber * 10) / 10);">
+                    <label id="playback-rate-curr">x1</label>
+                </div>
+                <div class="autofocus-current-word">
+                    <label for="autofocus-current-word">跟随:</label>
+                    <input id="autofocus-current-word" class="mui-switch mui-switch-animbg" type="checkbox" checked="checked">
+                </div>
+            </div>
+
+        </header>
+
+        <article>
+
+            <div class="notice">
+                <p class="loading" hidden="">
+                    <em> Loading </em>audio
+                </p>
+
+                <p class="passage-audio-unavailable" hidden="">
+                    <em class="error"><strong>Error:</strong> You will not be able to do the read-along audio because your browser is not able to play MP3, Ogg, or WAV audio formats.</em>
+                </p>
+
+                <p class="playback-rate-unavailable" hidden="">
+                    <em>(It seems your browser does not support <code>HTMLMediaElement.playbackRate</code>, so you will not be able to change the speech rate.)</em>
+                </p>
+
+                <noscript>
+                    &lt;p class="error"&gt;&lt;em&gt;&lt;strong&gt;Notice:&lt;/strong&gt; You must have JavaScript enabled/available to try this HTML5 Audio read along.&lt;/em&gt;&lt;/p&gt;
+                </noscript>
+            </div>
+
+            <div id="passage-text" class="passage">
+<p> <span data-index="1" data-begin="19.0" data-dur="0.099" tabindex="0">The</span>   <span data-index="2" data-begin="19.1" data-dur="0.459" tabindex="0">Figure</span>   <span data-index="3" data-begin="19.559" data-dur="0.089" tabindex="0">in</span>   <span data-index="4" data-begin="19.649" data-dur="0.08" tabindex="0">the</span>   <span data-index="5" data-begin="19.729" data-dur="0.52" tabindex="0">Carpet</span>   ,  <span data-index="6" data-begin="20.549" data-dur="0.199" tabindex="0">by</span>   <span data-index="7" data-begin="20.779" data-dur="0.37" tabindex="0">Henry</span>   <span data-index="8" data-begin="21.149" data-dur="0.63" tabindex="0">James</span>   </p>
+<p> <span data-index="9" data-begin="22.239" data-dur="0.5" tabindex="0">Chapter</span>  1 </p>
+<p> <span data-index="10" data-begin="24.43" data-dur="0.17" tabindex="0">I</span>   <span data-index="11" data-begin="24.6" data-dur="0.199" tabindex="0">had</span>   <span data-index="12" data-begin="24.799" data-dur="0.179" tabindex="0">done</span>   <span data-index="13" data-begin="24.979" data-dur="0.04" tabindex="0">a</span>   <span data-index="14" data-begin="25.019" data-dur="0.25" tabindex="0">few</span>   <span data-index="15" data-begin="25.269" data-dur="0.41" tabindex="0">things</span>   <span data-index="16" data-begin="25.68" data-dur="0.179" tabindex="0">and</span>   <span data-index="17" data-begin="25.859" data-dur="0.22" tabindex="0">earned</span>   <span data-index="18" data-begin="26.079" data-dur="0.04" tabindex="0">a</span>   <span data-index="19" data-begin="26.119" data-dur="0.21" tabindex="0">few</span>   <span data-index="20" data-begin="26.329" data-dur="0.55" tabindex="0">pence</span>  — <span data-index="21" data-begin="27.269" data-dur="0.17" tabindex="0">I</span>   <span data-index="22" data-begin="27.439" data-dur="0.17" tabindex="0">had</span>   <span data-index="23" data-begin="27.609" data-dur="0.47" tabindex="0">perhaps</span>   <span data-index="24" data-begin="28.129" data-dur="0.37" tabindex="0">even</span>   <span data-index="25" data-begin="28.5" data-dur="0.21" tabindex="0">had</span>   <span data-index="26" data-begin="28.709" data-dur="0.32" tabindex="0">time</span>   <span data-index="27" data-begin="29.029" data-dur="0.099" tabindex="0">to</span>   <span data-index="28" data-begin="29.129" data-dur="0.299" tabindex="0">begin</span>   <span data-index="29" data-begin="29.429" data-dur="0.11" tabindex="0">to</span>   <span data-index="30" data-begin="29.539" data-dur="0.32" tabindex="0">think</span>   <span data-index="31" data-begin="30.059" data-dur="0.13" tabindex="0">I</span>   <span data-index="32" data-begin="30.189" data-dur="0.25" tabindex="0">was</span>   <span data-index="33" data-begin="30.439" data-dur="0.539" tabindex="0">finer</span>   <span data-index="34" data-begin="30.979" data-dur="0.17" tabindex="0">than</span>   <span data-index="35" data-begin="31.149" data-dur="0.16" tabindex="0">was</span>   <span data-index="36" data-begin="31.309" data-dur="0.59" tabindex="0">perceived</span>   <span data-index="37" data-begin="31.899" data-dur="0.149" tabindex="0">by</span>   <span data-index="38" data-begin="32.049" data-dur="0.089" tabindex="0">the</span>   <span data-index="39" data-begin="32.139" data-dur="0.799" tabindex="0">patronising</span>   ;  <span data-index="40" data-begin="33.529" data-dur="0.12" tabindex="0">but</span>   <span data-index="41" data-begin="33.649" data-dur="0.17" tabindex="0">when</span>   <span data-index="42" data-begin="33.819" data-dur="0.089" tabindex="0">I</span>   <span data-index="43" data-begin="33.909" data-dur="0.299" tabindex="0">take</span>   <span data-index="44" data-begin="34.209" data-dur="0.12" tabindex="0">the</span>   <span data-index="45" data-begin="34.329" data-dur="0.29" tabindex="0">little</span>   <span data-index="46" data-begin="34.619" data-dur="0.39" tabindex="0">measure</span>   <span data-index="47" data-begin="35.009" data-dur="0.08" tabindex="0">of</span>   <span data-index="48" data-begin="35.119" data-dur="0.16" tabindex="0">my</span>   <span data-index="49" data-begin="35.279" data-dur="0.63" tabindex="0">course</span>   (  <span class="nomatch">a</span>  <span class="nomatch">fidgety</span>  <span class="nomatch">habit</span>  ,  <span class="nomatch">for</span>  <span class="nomatch">it’s</span>  <span class="nomatch">none</span>  <span class="nomatch">of</span>  <span class="nomatch">the</span>  <span class="nomatch">longest</span>  <span class="nomatch">yet</span>  )  <span data-index="60" data-begin="39.43" data-dur="0.11" tabindex="0">I</span>   <span data-index="61" data-begin="39.54" data-dur="0.28" tabindex="0">count</span>   <span data-index="62" data-begin="39.819" data-dur="0.179" tabindex="0">my</span>   <span data-index="63" data-begin="40.029" data-dur="0.39" tabindex="0">real</span>   <span data-index="64" data-begin="40.419" data-dur="0.42" tabindex="0">start</span>   <span data-index="65" data-begin="40.84" data-dur="0.19" tabindex="0">from</span>   <span data-index="66" data-begin="41.029" data-dur="0.08" tabindex="0">the</span>   <span data-index="67" data-begin="41.139" data-dur="0.51" tabindex="0">evening</span>   <span data-index="68" data-begin="41.649" data-dur="0.41" tabindex="0">George</span>   <span data-index="69" data-begin="42.09" data-dur="0.64" tabindex="0">Corvick</span>   ,  <span data-index="70" data-begin="43.0" data-dur="0.539" tabindex="0">breathless</span>   <span data-index="71" data-begin="43.54" data-dur="0.17" tabindex="0">and</span>   <span data-index="72" data-begin="43.709" data-dur="0.45" tabindex="0">worried</span>   ,  <span data-index="73" data-begin="44.34" data-dur="0.31" tabindex="0">came</span>   <span data-index="74" data-begin="44.649" data-dur="0.16" tabindex="0">in</span>   <span data-index="75" data-begin="44.809" data-dur="0.13" tabindex="0">to</span>   <span data-index="76" data-begin="44.939" data-dur="0.31" tabindex="0">ask</span>   <span data-index="77" data-begin="45.25" data-dur="0.149" tabindex="0">me</span>   <span data-index="78" data-begin="45.399" data-dur="0.049" tabindex="0">a</span>   <span data-index="79" data-begin="45.45" data-dur="0.63" tabindex="0">service</span>   .  <span data-index="80" data-begin="46.789" data-dur="0.19" tabindex="0">He</span>   <span data-index="81" data-begin="46.979" data-dur="0.13" tabindex="0">had</span>   <span data-index="82" data-begin="47.11" data-dur="0.199" tabindex="0">done</span>   <span data-index="83" data-begin="47.309" data-dur="0.19" tabindex="0">more</span>   <span data-index="84" data-begin="47.5" data-dur="0.35" tabindex="0">things</span>   <span data-index="85" data-begin="47.849" data-dur="0.17" tabindex="0">than</span>   <span data-index="86" data-begin="48.02" data-dur="0.35" tabindex="0">I</span>   ,  <span data-index="87" data-begin="48.52" data-dur="0.17" tabindex="0">and</span>   <span data-index="88" data-begin="48.719" data-dur="0.25" tabindex="0">earned</span>   <span data-index="89" data-begin="48.969" data-dur="0.22" tabindex="0">more</span>   <span data-index="90" data-begin="49.189" data-dur="0.56" tabindex="0">pence</span>   ,  <span data-index="91" data-begin="50.25" data-dur="0.149" tabindex="0">though</span>   <span data-index="92" data-begin="50.399" data-dur="0.13" tabindex="0">there</span>   <span data-index="93" data-begin="50.529" data-dur="0.11" tabindex="0">were</span>   <span data-index="94" data-begin="50.639" data-dur="0.56" tabindex="0">chances</span>   <span data-index="95" data-begin="51.199" data-dur="0.13" tabindex="0">for</span>   <span data-index="96" data-begin="51.329" data-dur="0.57" tabindex="0">cleverness</span>   <span data-index="97" data-begin="51.899" data-dur="0.089" tabindex="0">I</span>   <span data-index="98" data-begin="51.989" data-dur="0.37" tabindex="0">thought</span>   <span data-index="99" data-begin="52.36" data-dur="0.12" tabindex="0">he</span>   <span data-index="100" data-begin="52.479" data-dur="0.539" tabindex="0">sometimes</span>   <span data-index="101" data-begin="53.02" data-dur="0.47" tabindex="0">missed</span>   .  <span data-index="102" data-begin="54.039" data-dur="0.099" tabindex="0">I</span>   <span data-index="103" data-begin="54.139" data-dur="0.179" tabindex="0">could</span>   <span data-index="104" data-begin="54.349" data-dur="0.429" tabindex="0">only</span>   <span data-index="105" data-begin="54.779" data-dur="0.52" tabindex="0">however</span>   <span data-index="106" data-begin="55.34" data-dur="0.199" tabindex="0">that</span>   <span data-index="107" data-begin="55.539" data-dur="0.41" tabindex="0">evening</span>   <span data-index="108" data-begin="55.949" data-dur="0.41" tabindex="0">declare</span>   <span data-index="109" data-begin="56.36" data-dur="0.13" tabindex="0">to</span>   <span data-index="110" data-begin="56.489" data-dur="0.329" tabindex="0">him</span>   <span data-index="111" data-begin="57.119" data-dur="0.13" tabindex="0">that</span>   <span data-index="112" data-begin="57.25" data-dur="0.14" tabindex="0">he</span>   <span data-index="113" data-begin="57.389" data-dur="0.399" tabindex="0">never</span>   <span data-index="114" data-begin="57.789" data-dur="0.32" tabindex="0">missed</span>   <span data-index="115" data-begin="58.109" data-dur="0.25" tabindex="0">one</span>   <span data-index="116" data-begin="58.359" data-dur="0.149" tabindex="0">for</span>   <span data-index="117" data-begin="58.509" data-dur="0.799" tabindex="0">kindness</span>   .  <span data-index="118" data-begin="59.77" data-dur="0.12" tabindex="0">There</span>   <span data-index="119" data-begin="59.889" data-dur="0.179" tabindex="0">was</span>   <span data-index="120" data-begin="60.069" data-dur="0.48" tabindex="0">almost</span>   <span data-index="121" data-begin="60.579" data-dur="0.64" tabindex="0">rapture</span>   <span data-index="122" data-begin="61.219" data-dur="0.099" tabindex="0">in</span>   <span data-index="123" data-begin="61.319" data-dur="0.38" tabindex="0">hearing</span>   <span data-index="124" data-begin="61.699" data-dur="0.11" tabindex="0">it</span>   <span data-index="125" data-begin="61.809" data-dur="0.63" tabindex="0">proposed</span>   <span data-index="126" data-begin="62.439" data-dur="0.07" tabindex="0">to</span>   <span data-index="127" data-begin="62.509" data-dur="0.229" tabindex="0">me</span>   <span data-index="128" data-begin="63.029" data-dur="0.14" tabindex="0">to</span>   <span data-index="129" data-begin="63.169" data-dur="0.53" tabindex="0">prepare</span>   <span data-index="130" data-begin="63.699" data-dur="0.16" tabindex="0">for</span>   <span data-index="131" data-begin="63.859" data-dur="0.11" tabindex="0">The</span>   <span data-index="132" data-begin="63.969" data-dur="0.539" tabindex="0">Middle</span>   ,  <span data-index="133" data-begin="64.799" data-dur="0.16" tabindex="0">the</span>   <span data-index="134" data-begin="65.029" data-dur="0.429" tabindex="0">organ</span>   <span data-index="135" data-begin="65.459" data-dur="0.12" tabindex="0">of</span>   <span data-index="136" data-begin="65.58" data-dur="0.229" tabindex="0">our</span>   <span data-index="137" data-begin="65.809" data-dur="0.979" tabindex="0">lucubrations</span>   ,  <span data-index="138" data-begin="67.0" data-dur="0.399" tabindex="0">so</span>   <span data-index="139" data-begin="67.4" data-dur="0.429" tabindex="0">called</span>   <span data-index="140" data-begin="67.83" data-dur="0.199" tabindex="0">from</span>   <span data-index="141" data-begin="68.029" data-dur="0.089" tabindex="0">the</span>   <span data-index="142" data-begin="68.119" data-dur="0.539" tabindex="0">position</span>   <span data-index="143" data-begin="68.659" data-dur="0.11" tabindex="0">in</span>   <span data-index="144" data-begin="68.769" data-dur="0.099" tabindex="0">the</span>   <span data-index="145" data-begin="68.869" data-dur="0.28" tabindex="0">week</span>   <span data-index="146" data-begin="69.15" data-dur="0.11" tabindex="0">of</span>   <span data-index="147" data-begin="69.26" data-dur="0.199" tabindex="0">its</span>   <span data-index="148" data-begin="69.459" data-dur="0.24" tabindex="0">day</span>   <span data-index="149" data-begin="69.699" data-dur="0.099" tabindex="0">of</span>   <span data-index="150" data-begin="69.799" data-dur="0.71" tabindex="0">appearance</span>   ,  <span data-index="151" data-begin="70.889" data-dur="0.179" tabindex="0">an</span>   <span data-index="152" data-begin="71.099" data-dur="0.44" tabindex="0">article</span>   <span data-index="153" data-begin="71.54" data-dur="0.179" tabindex="0">for</span>   <span data-index="154" data-begin="71.72" data-dur="0.229" tabindex="0">which</span>   <span data-index="155" data-begin="71.949" data-dur="0.179" tabindex="0">he</span>   <span data-index="156" data-begin="72.129" data-dur="0.16" tabindex="0">had</span>   <span data-index="157" data-begin="72.29" data-dur="0.229" tabindex="0">made</span>   <span data-index="158" data-begin="72.519" data-dur="0.58" tabindex="0">himself</span>   <span data-index="159" data-begin="73.099" data-dur="0.799" tabindex="0">responsible</span>   <span data-index="160" data-begin="74.239" data-dur="0.19" tabindex="0">and</span>   <span data-index="161" data-begin="74.459" data-dur="0.229" tabindex="0">of</span>   <span data-index="162" data-begin="74.689" data-dur="0.44" tabindex="0">which</span>   ,  <span data-index="163" data-begin="75.159" data-dur="0.359" tabindex="0">tied</span>   <span data-index="164" data-begin="75.519" data-dur="0.149" tabindex="0">up</span>   <span data-index="165" data-begin="75.669" data-dur="0.16" tabindex="0">with</span>   <span data-index="166" data-begin="75.83" data-dur="0.06" tabindex="0">a</span>   <span data-index="167" data-begin="75.889" data-dur="0.42" tabindex="0">stout</span>   <span data-index="168" data-begin="76.309" data-dur="0.53" tabindex="0">string</span>   ,  <span data-index="169" data-begin="77.11" data-dur="0.16" tabindex="0">he</span>   <span data-index="170" data-begin="77.269" data-dur="0.359" tabindex="0">laid</span>   <span data-index="171" data-begin="77.629" data-dur="0.14" tabindex="0">on</span>   <span data-index="172" data-begin="77.769" data-dur="0.22" tabindex="0">my</span>   <span data-index="173" data-begin="78.019" data-dur="0.429" tabindex="0">table</span>   <span data-index="174" data-begin="78.479" data-dur="0.089" tabindex="0">the</span>   <span data-index="175" data-begin="78.569" data-dur="0.63" tabindex="0">subject</span>   .  <span data-index="176" data-begin="79.809" data-dur="0.17" tabindex="0">I</span>   <span data-index="177" data-begin="79.979" data-dur="0.52" tabindex="0">pounced</span>   <span data-index="178" data-begin="80.499" data-dur="0.26" tabindex="0">upon</span>   <span data-index="179" data-begin="80.759" data-dur="0.229" tabindex="0">my</span>   <span data-index="180" data-begin="80.989" data-dur="0.84" tabindex="0">opportunity</span>  — <span data-index="181" data-begin="82.2" data-dur="0.21" tabindex="0">that</span>   <span data-index="182" data-begin="82.41" data-dur="0.329" tabindex="0">is</span>   <span data-index="183" data-begin="82.739" data-dur="0.13" tabindex="0">on</span>   <span data-index="184" data-begin="82.87" data-dur="0.07" tabindex="0">the</span>   <span data-index="185" data-begin="82.939" data-dur="0.35" tabindex="0">first</span>   <span data-index="186" data-begin="83.29" data-dur="0.44" tabindex="0">volume</span>   <span data-index="187" data-begin="83.729" data-dur="0.12" tabindex="0">of</span>   <span data-index="188" data-begin="83.849" data-dur="0.16" tabindex="0">it</span>  — <span data-index="189" data-begin="84.41" data-dur="0.149" tabindex="0">and</span>   <span data-index="190" data-begin="84.559" data-dur="0.229" tabindex="0">paid</span>   <span data-index="191" data-begin="84.79" data-dur="0.539" tabindex="0">scant</span>   <span data-index="192" data-begin="85.33" data-dur="0.52" tabindex="0">attention</span>   <span data-index="193" data-begin="85.849" data-dur="0.07" tabindex="0">to</span>   <span data-index="194" data-begin="85.919" data-dur="0.179" tabindex="0">my</span>   <span data-index="195" data-begin="86.099" data-dur="0.47" tabindex="0">friend’s</span>   <span data-index="196" data-begin="86.599" data-dur="0.849" tabindex="0">explanation</span>   <span data-index="197" data-begin="87.45" data-dur="0.11" tabindex="0">of</span>   <span data-index="198" data-begin="87.559" data-dur="0.199" tabindex="0">his</span>   <span data-index="199" data-begin="87.759" data-dur="0.5" tabindex="0">appeal</span>   .  <span data-index="200" data-begin="88.839" data-dur="0.26" tabindex="0">What</span>   <span data-index="201" data-begin="89.129" data-dur="0.89" tabindex="0">explanation</span>   <span data-index="202" data-begin="90.019" data-dur="0.149" tabindex="0">could</span>   <span data-index="203" data-begin="90.169" data-dur="0.12" tabindex="0">be</span>   <span data-index="204" data-begin="90.29" data-dur="0.26" tabindex="0">more</span>   <span data-index="205" data-begin="90.55" data-dur="0.12" tabindex="0">to</span>   <span data-index="206" data-begin="90.669" data-dur="0.11" tabindex="0">the</span>   <span data-index="207" data-begin="90.779" data-dur="0.39" tabindex="0">point</span>   <span data-index="208" data-begin="91.419" data-dur="0.14" tabindex="0">than</span>   <span data-index="209" data-begin="91.559" data-dur="0.21" tabindex="0">my</span>   <span data-index="210" data-begin="91.8" data-dur="0.539" tabindex="0">obvious</span>   <span data-index="211" data-begin="92.339" data-dur="0.44" tabindex="0">fitness</span>   <span data-index="212" data-begin="92.779" data-dur="0.11" tabindex="0">for</span>   <span data-index="213" data-begin="92.889" data-dur="0.12" tabindex="0">the</span>   <span data-index="214" data-begin="93.009" data-dur="0.59" tabindex="0">task</span>   ?  <span data-index="215" data-begin="94.21" data-dur="0.149" tabindex="0">I</span>   <span data-index="216" data-begin="94.359" data-dur="0.25" tabindex="0">had</span>   <span data-index="217" data-begin="94.609" data-dur="0.32" tabindex="0">written</span>   <span data-index="218" data-begin="94.929" data-dur="0.16" tabindex="0">on</span>   <span data-index="219" data-begin="95.089" data-dur="0.24" tabindex="0">Hugh</span>   <span data-index="220" data-begin="95.329" data-dur="0.599" tabindex="0">Vereker</span>   ,  <span data-index="221" data-begin="96.2" data-dur="0.16" tabindex="0">but</span>   <span data-index="222" data-begin="96.359" data-dur="0.39" tabindex="0">never</span>   <span data-index="223" data-begin="96.749" data-dur="0.08" tabindex="0">a</span>   <span data-index="224" data-begin="96.829" data-dur="0.399" tabindex="0">word</span>   <span data-index="225" data-begin="97.229" data-dur="0.12" tabindex="0">in</span>   <span data-index="226" data-begin="97.349" data-dur="0.07" tabindex="0">The</span>   <span data-index="227" data-begin="97.419" data-dur="0.38" tabindex="0">Middle</span>   ,  <span data-index="228" data-begin="98.189" data-dur="0.179" tabindex="0">where</span>   <span data-index="229" data-begin="98.37" data-dur="0.17" tabindex="0">my</span>   <span data-index="230" data-begin="98.54" data-dur="0.55" tabindex="0">dealings</span>   <span data-index="231" data-begin="99.089" data-dur="0.089" tabindex="0">were</span>   <span data-index="232" data-begin="99.179" data-dur="0.51" tabindex="0">mainly</span>   <span data-index="233" data-begin="99.689" data-dur="0.229" tabindex="0">with</span>   <span data-index="234" data-begin="99.919" data-dur="0.08" tabindex="0">the</span>   <span data-index="235" data-begin="100.029" data-dur="0.51" tabindex="0">ladies</span>   <span data-index="236" data-begin="100.54" data-dur="0.14" tabindex="0">and</span>   <span data-index="237" data-begin="100.679" data-dur="0.07" tabindex="0">the</span>   <span data-index="238" data-begin="100.749" data-dur="0.39" tabindex="0">minor</span>   <span data-index="239" data-begin="101.139" data-dur="0.599" tabindex="0">poets</span>   .  <span data-index="240" data-begin="102.429" data-dur="0.329" tabindex="0">This</span>   <span data-index="241" data-begin="102.759" data-dur="0.199" tabindex="0">was</span>   <span data-index="242" data-begin="102.96" data-dur="0.199" tabindex="0">his</span>   <span data-index="243" data-begin="103.159" data-dur="0.24" tabindex="0">new</span>   <span data-index="244" data-begin="103.399" data-dur="0.56" tabindex="0">novel</span>   ,  <span data-index="245" data-begin="104.049" data-dur="0.16" tabindex="0">an</span>   <span data-index="246" data-begin="104.21" data-dur="0.5" tabindex="0">advance</span>   <span data-index="247" data-begin="104.71" data-dur="0.5" tabindex="0">copy</span>   ,  <span data-index="248" data-begin="105.669" data-dur="0.13" tabindex="0">and</span>   <span data-index="249" data-begin="105.799" data-dur="0.359" tabindex="0">whatever</span>   <span data-index="250" data-begin="106.159" data-dur="0.34" tabindex="0">much</span>   <span data-index="251" data-begin="106.499" data-dur="0.11" tabindex="0">or</span>   <span data-index="252" data-begin="106.609" data-dur="0.38" tabindex="0">little</span>   <span data-index="253" data-begin="107.019" data-dur="0.12" tabindex="0">it</span>   <span data-index="254" data-begin="107.139" data-dur="0.22" tabindex="0">should</span>   <span data-index="255" data-begin="107.359" data-dur="0.19" tabindex="0">do</span>   <span data-index="256" data-begin="107.549" data-dur="0.149" tabindex="0">for</span>   <span data-index="257" data-begin="107.7" data-dur="0.34" tabindex="0">his</span>   <span data-index="258" data-begin="108.04" data-dur="0.82" tabindex="0">reputation</span>   <span data-index="259" data-begin="109.31" data-dur="0.149" tabindex="0">I</span>   <span data-index="260" data-begin="109.459" data-dur="0.22" tabindex="0">was</span>   <span data-index="261" data-begin="109.679" data-dur="0.42" tabindex="0">clear</span>   <span data-index="262" data-begin="110.139" data-dur="0.149" tabindex="0">on</span>   <span data-index="263" data-begin="110.29" data-dur="0.089" tabindex="0">the</span>   <span data-index="264" data-begin="110.38" data-dur="0.47" tabindex="0">spot</span>   <span data-index="265" data-begin="110.88" data-dur="0.14" tabindex="0">as</span>   <span data-index="266" data-begin="111.019" data-dur="0.14" tabindex="0">to</span>   <span data-index="267" data-begin="111.159" data-dur="0.29" tabindex="0">what</span>   <span data-index="268" data-begin="111.45" data-dur="0.11" tabindex="0">it</span>   <span data-index="269" data-begin="111.56" data-dur="0.21" tabindex="0">should</span>   <span data-index="270" data-begin="111.769" data-dur="0.22" tabindex="0">do</span>   <span data-index="271" data-begin="112.019" data-dur="0.14" tabindex="0">for</span>   <span data-index="272" data-begin="112.159" data-dur="0.62" tabindex="0">mine</span>   .  <span data-index="273" data-begin="113.45" data-dur="0.63" tabindex="0">Moreover</span>   <span data-index="274" data-begin="114.13" data-dur="0.19" tabindex="0">if</span>   <span data-index="275" data-begin="114.319" data-dur="0.12" tabindex="0">I</span>   <span data-index="276" data-begin="114.439" data-dur="0.5" tabindex="0">always</span>   <span data-index="277" data-begin="114.939" data-dur="0.179" tabindex="0">read</span>   <span data-index="278" data-begin="115.119" data-dur="0.21" tabindex="0">him</span>   <span data-index="279" data-begin="115.329" data-dur="0.089" tabindex="0">as</span>   <span data-index="280" data-begin="115.419" data-dur="0.24" tabindex="0">soon</span>   <span data-index="281" data-begin="115.659" data-dur="0.149" tabindex="0">as</span>   <span data-index="282" data-begin="115.81" data-dur="0.089" tabindex="0">I</span>   <span data-index="283" data-begin="115.9" data-dur="0.19" tabindex="0">could</span>   <span data-index="284" data-begin="116.089" data-dur="0.16" tabindex="0">get</span>   <span data-index="285" data-begin="116.249" data-dur="0.269" tabindex="0">hold</span>   <span data-index="286" data-begin="116.519" data-dur="0.11" tabindex="0">of</span>   <span data-index="287" data-begin="116.63" data-dur="0.22" tabindex="0">him</span>   <span data-index="288" data-begin="117.249" data-dur="0.12" tabindex="0">I</span>   <span data-index="289" data-begin="117.369" data-dur="0.16" tabindex="0">had</span>   <span data-index="290" data-begin="117.529" data-dur="0.06" tabindex="0">a</span>   <span data-index="291" data-begin="117.589" data-dur="0.599" tabindex="0">particular</span>   <span data-index="292" data-begin="118.189" data-dur="0.41" tabindex="0">reason</span>   <span data-index="293" data-begin="118.599" data-dur="0.19" tabindex="0">for</span>   <span data-index="294" data-begin="118.79" data-dur="0.399" tabindex="0">wishing</span>   <span data-index="295" data-begin="119.189" data-dur="0.11" tabindex="0">to</span>   <span data-index="296" data-begin="119.299" data-dur="0.28" tabindex="0">read</span>   <span data-index="297" data-begin="119.579" data-dur="0.19" tabindex="0">him</span>   <span data-index="298" data-begin="119.769" data-dur="0.45" tabindex="0">now</span>  : <span data-index="299" data-begin="120.819" data-dur="0.14" tabindex="0">I</span>   <span data-index="300" data-begin="120.959" data-dur="0.17" tabindex="0">had</span>   <span data-index="301" data-begin="121.13" data-dur="0.69" tabindex="0">accepted</span>   <span data-index="302" data-begin="121.88" data-dur="0.199" tabindex="0">an</span>   <span data-index="303" data-begin="122.079" data-dur="0.68" tabindex="0">invitation</span>   <span data-index="304" data-begin="122.759" data-dur="0.11" tabindex="0">to</span>   <span data-index="305" data-begin="122.869" data-dur="0.57" tabindex="0">Bridges</span>   <span data-index="306" data-begin="123.439" data-dur="0.12" tabindex="0">for</span>   <span data-index="307" data-begin="123.56" data-dur="0.11" tabindex="0">the</span>   <span data-index="308" data-begin="123.669" data-dur="0.489" tabindex="0">following</span>   <span data-index="309" data-begin="124.159" data-dur="0.459" tabindex="0">Sunday</span>   ,  <span data-index="310" data-begin="125.079" data-dur="0.149" tabindex="0">and</span>   <span data-index="311" data-begin="125.229" data-dur="0.11" tabindex="0">it</span>   <span data-index="312" data-begin="125.339" data-dur="0.16" tabindex="0">had</span>   <span data-index="313" data-begin="125.499" data-dur="0.19" tabindex="0">been</span>   <span data-index="314" data-begin="125.689" data-dur="0.53" tabindex="0">mentioned</span>   <span data-index="315" data-begin="126.22" data-dur="0.08" tabindex="0">in</span>   <span data-index="316" data-begin="126.329" data-dur="0.359" tabindex="0">Lady</span>   <span data-index="317" data-begin="126.689" data-dur="0.47" tabindex="0">Jane’s</span>   <span data-index="318" data-begin="127.159" data-dur="0.38" tabindex="0">note</span>   <span data-index="319" data-begin="127.599" data-dur="0.17" tabindex="0">that</span>   <span data-index="320" data-begin="127.769" data-dur="0.26" tabindex="0">Mr</span>   .  <span data-index="321" data-begin="128.029" data-dur="0.48" tabindex="0">Vereker</span>   <span data-index="322" data-begin="128.509" data-dur="0.16" tabindex="0">was</span>   <span data-index="323" data-begin="128.669" data-dur="0.11" tabindex="0">to</span>   <span data-index="324" data-begin="128.779" data-dur="0.24" tabindex="0">be</span>   <span data-index="325" data-begin="129.049" data-dur="0.25" tabindex="0">there</span>   .  <span data-index="326" data-begin="130.019" data-dur="0.12" tabindex="0">I</span>   <span data-index="327" data-begin="130.139" data-dur="0.21" tabindex="0">was</span>   <span data-index="328" data-begin="130.349" data-dur="0.29" tabindex="0">young</span>   <span data-index="329" data-begin="130.639" data-dur="0.28" tabindex="0">enough</span>   <span data-index="330" data-begin="130.919" data-dur="0.17" tabindex="0">for</span>   <span data-index="331" data-begin="131.089" data-dur="0.04" tabindex="0">a</span>   <span data-index="332" data-begin="131.13" data-dur="0.459" tabindex="0">flutter</span>   <span data-index="333" data-begin="131.589" data-dur="0.06" tabindex="0">at</span>   <span data-index="334" data-begin="131.679" data-dur="0.34" tabindex="0">meeting</span>   <span data-index="335" data-begin="132.019" data-dur="0.049" tabindex="0">a</span>   <span data-index="336" data-begin="132.069" data-dur="0.269" tabindex="0">man</span>   <span data-index="337" data-begin="132.339" data-dur="0.099" tabindex="0">of</span>   <span data-index="338" data-begin="132.47" data-dur="0.24" tabindex="0">his</span>   <span data-index="339" data-begin="132.709" data-dur="0.48" tabindex="0">renown</span>   ,  <span data-index="340" data-begin="133.589" data-dur="0.179" tabindex="0">and</span>   <span data-index="341" data-begin="133.799" data-dur="0.53" tabindex="0">innocent</span>   <span data-index="342" data-begin="134.329" data-dur="0.299" tabindex="0">enough</span>   <span data-index="343" data-begin="134.63" data-dur="0.11" tabindex="0">to</span>   <span data-index="344" data-begin="134.739" data-dur="0.459" tabindex="0">believe</span>   <span data-index="345" data-begin="135.2" data-dur="0.149" tabindex="0">the</span>   <span data-index="346" data-begin="135.349" data-dur="0.539" tabindex="0">occasion</span>   <span data-index="347" data-begin="136.099" data-dur="0.16" tabindex="0">would</span>   <span data-index="348" data-begin="136.259" data-dur="0.489" tabindex="0">demand</span>   <span data-index="349" data-begin="136.749" data-dur="0.08" tabindex="0">the</span>   <span data-index="350" data-begin="136.829" data-dur="0.68" tabindex="0">display</span>   <span data-index="351" data-begin="137.729" data-dur="0.12" tabindex="0">of</span>   <span data-index="352" data-begin="137.85" data-dur="0.099" tabindex="0">an</span>   <span data-index="353" data-begin="137.95" data-dur="0.659" tabindex="0">acquaintance</span>   <span data-index="354" data-begin="138.609" data-dur="0.199" tabindex="0">with</span>   <span data-index="355" data-begin="138.81" data-dur="0.26" tabindex="0">his</span>   “  <span data-index="356" data-begin="139.24" data-dur="0.68" tabindex="0">last</span>   .”</p>
+<p> <span data-index="357" data-begin="140.99" data-dur="0.56" tabindex="0">Corvick</span>   ,  <span data-index="358" data-begin="141.579" data-dur="0.17" tabindex="0">who</span>   <span data-index="359" data-begin="141.749" data-dur="0.12" tabindex="0">had</span>   <span data-index="360" data-begin="141.869" data-dur="0.48" tabindex="0">promised</span>   <span data-index="361" data-begin="142.35" data-dur="0.049" tabindex="0">a</span>   <span data-index="362" data-begin="142.399" data-dur="0.41" tabindex="0">review</span>   <span data-index="363" data-begin="142.81" data-dur="0.11" tabindex="0">of</span>   <span data-index="364" data-begin="142.92" data-dur="0.13" tabindex="0">it</span>   ,  <span data-index="365" data-begin="143.429" data-dur="0.179" tabindex="0">had</span>   <span data-index="366" data-begin="143.609" data-dur="0.22" tabindex="0">not</span>   <span data-index="367" data-begin="143.859" data-dur="0.29" tabindex="0">even</span>   <span data-index="368" data-begin="144.149" data-dur="0.17" tabindex="0">had</span>   <span data-index="369" data-begin="144.319" data-dur="0.29" tabindex="0">time</span>   <span data-index="370" data-begin="144.609" data-dur="0.12" tabindex="0">to</span>   <span data-index="371" data-begin="144.729" data-dur="0.25" tabindex="0">read</span>   <span data-index="372" data-begin="144.979" data-dur="0.14" tabindex="0">it</span>   ;  <span data-index="373" data-begin="145.569" data-dur="0.13" tabindex="0">he</span>   <span data-index="374" data-begin="145.7" data-dur="0.12" tabindex="0">had</span>   <span data-index="375" data-begin="145.819" data-dur="0.22" tabindex="0">gone</span>   <span data-index="376" data-begin="146.039" data-dur="0.099" tabindex="0">to</span>   <span data-index="377" data-begin="146.139" data-dur="0.5" tabindex="0">pieces</span>   <span data-index="378" data-begin="146.639" data-dur="0.14" tabindex="0">in</span>   <span data-index="379" data-begin="146.78" data-dur="0.61" tabindex="0">consequence</span>   <span data-index="380" data-begin="147.389" data-dur="0.14" tabindex="0">of</span>   <span data-index="381" data-begin="147.53" data-dur="0.539" tabindex="0">news</span>   <span data-index="382" data-begin="148.2" data-dur="0.719" tabindex="0">requiring</span>  — <span data-index="383" data-begin="149.289" data-dur="0.25" tabindex="0">as</span>   <span data-index="384" data-begin="149.539" data-dur="0.14" tabindex="0">on</span>   <span data-index="385" data-begin="149.679" data-dur="0.61" tabindex="0">precipitate</span>   <span data-index="386" data-begin="150.35" data-dur="0.59" tabindex="0">reflexion</span>   <span data-index="387" data-begin="150.939" data-dur="0.14" tabindex="0">he</span>   <span data-index="388" data-begin="151.079" data-dur="0.58" tabindex="0">judged</span>  — <span data-index="389" data-begin="151.999" data-dur="0.13" tabindex="0">that</span>   <span data-index="390" data-begin="152.13" data-dur="0.14" tabindex="0">he</span>   <span data-index="391" data-begin="152.269" data-dur="0.22" tabindex="0">should</span>   <span data-index="392" data-begin="152.519" data-dur="0.38" tabindex="0">catch</span>   <span data-index="393" data-begin="152.929" data-dur="0.089" tabindex="0">the</span>   <span data-index="394" data-begin="153.019" data-dur="0.26" tabindex="0">night</span>  - <span data-index="395" data-begin="153.319" data-dur="0.37" tabindex="0">mail</span>   <span data-index="396" data-begin="153.689" data-dur="0.12" tabindex="0">to</span>   <span data-index="397" data-begin="153.81" data-dur="0.669" tabindex="0">Paris</span>   .  <span data-index="398" data-begin="154.969" data-dur="0.149" tabindex="0">He</span>   <span data-index="399" data-begin="155.119" data-dur="0.16" tabindex="0">had</span>   <span data-index="400" data-begin="155.28" data-dur="0.199" tabindex="0">had</span>   <span data-index="401" data-begin="155.479" data-dur="0.07" tabindex="0">a</span>   <span data-index="402" data-begin="155.549" data-dur="0.659" tabindex="0">telegram</span>   <span data-index="403" data-begin="156.209" data-dur="0.269" tabindex="0">from</span>   <span data-index="404" data-begin="156.479" data-dur="0.599" tabindex="0">Gwendolen</span>   <span data-index="405" data-begin="157.13" data-dur="0.429" tabindex="0">Erme</span>   <span data-index="406" data-begin="157.78" data-dur="0.179" tabindex="0">in</span>   <span data-index="407" data-begin="157.99" data-dur="0.38" tabindex="0">answer</span>   <span data-index="408" data-begin="158.369" data-dur="0.21" tabindex="0">to</span>   <span data-index="409" data-begin="158.579" data-dur="0.19" tabindex="0">his</span>   <span data-index="410" data-begin="158.769" data-dur="0.37" tabindex="0">letter</span>   <span data-index="411" data-begin="159.17" data-dur="0.47" tabindex="0">offering</span>   <span data-index="412" data-begin="159.639" data-dur="0.12" tabindex="0">to</span>   <span data-index="413" data-begin="159.759" data-dur="0.329" tabindex="0">fly</span>   <span data-index="414" data-begin="160.089" data-dur="0.25" tabindex="0">to</span>   <span data-index="415" data-begin="160.339" data-dur="0.089" tabindex="0">her</span>   <span data-index="416" data-begin="160.459" data-dur="0.44" tabindex="0">aid</span>   .  <span data-index="417" data-begin="161.53" data-dur="0.14" tabindex="0">I</span>   <span data-index="418" data-begin="161.67" data-dur="0.34" tabindex="0">knew</span>   <span data-index="419" data-begin="162.009" data-dur="0.429" tabindex="0">already</span>   <span data-index="420" data-begin="162.439" data-dur="0.28" tabindex="0">about</span>   <span data-index="421" data-begin="162.719" data-dur="0.57" tabindex="0">Gwendolen</span>   <span data-index="422" data-begin="163.289" data-dur="0.42" tabindex="0">Erme</span>   ;  <span data-index="423" data-begin="163.959" data-dur="0.11" tabindex="0">I</span>   <span data-index="424" data-begin="164.069" data-dur="0.16" tabindex="0">had</span>   <span data-index="425" data-begin="164.229" data-dur="0.24" tabindex="0">never</span>   <span data-index="426" data-begin="164.469" data-dur="0.39" tabindex="0">seen</span>   <span data-index="427" data-begin="164.859" data-dur="0.14" tabindex="0">her</span>   ,  <span data-index="428" data-begin="165.359" data-dur="0.12" tabindex="0">but</span>   <span data-index="429" data-begin="165.479" data-dur="0.099" tabindex="0">I</span>   <span data-index="430" data-begin="165.609" data-dur="0.179" tabindex="0">had</span>   <span data-index="431" data-begin="165.789" data-dur="0.26" tabindex="0">my</span>   <span data-index="432" data-begin="166.049" data-dur="0.659" tabindex="0">ideas</span>   ,  <span data-index="433" data-begin="166.92" data-dur="0.28" tabindex="0">which</span>   <span data-index="434" data-begin="167.2" data-dur="0.12" tabindex="0">were</span>   <span data-index="435" data-begin="167.319" data-dur="0.55" tabindex="0">mainly</span>   <span data-index="436" data-begin="167.869" data-dur="0.149" tabindex="0">to</span>   <span data-index="437" data-begin="168.019" data-dur="0.16" tabindex="0">the</span>   <span data-index="438" data-begin="168.179" data-dur="0.37" tabindex="0">effect</span>   <span data-index="439" data-begin="168.549" data-dur="0.149" tabindex="0">that</span>   <span data-index="440" data-begin="168.7" data-dur="0.539" tabindex="0">Corvick</span>   <span data-index="441" data-begin="169.24" data-dur="0.16" tabindex="0">would</span>   <span data-index="442" data-begin="169.399" data-dur="0.51" tabindex="0">marry</span>   <span data-index="443" data-begin="169.909" data-dur="0.199" tabindex="0">her</span>   <span data-index="444" data-begin="170.359" data-dur="0.13" tabindex="0">if</span>   <span data-index="445" data-begin="170.49" data-dur="0.179" tabindex="0">her</span>   <span data-index="446" data-begin="170.67" data-dur="0.359" tabindex="0">mother</span>   <span data-index="447" data-begin="171.029" data-dur="0.199" tabindex="0">would</span>   <span data-index="448" data-begin="171.289" data-dur="0.42" tabindex="0">only</span>   <span data-index="449" data-begin="171.709" data-dur="0.58" tabindex="0">die</span>   .  <span data-index="450" data-begin="172.949" data-dur="0.19" tabindex="0">That</span>   <span data-index="451" data-begin="173.169" data-dur="0.34" tabindex="0">lady</span>   <span data-index="452" data-begin="173.509" data-dur="0.37" tabindex="0">seemed</span>   <span data-index="453" data-begin="173.879" data-dur="0.269" tabindex="0">now</span>   <span data-index="454" data-begin="174.149" data-dur="0.07" tabindex="0">in</span>   <span data-index="455" data-begin="174.219" data-dur="0.03" tabindex="0">a</span>   <span data-index="456" data-begin="174.249" data-dur="0.329" tabindex="0">fair</span>   <span data-index="457" data-begin="174.58" data-dur="0.19" tabindex="0">way</span>   <span data-index="458" data-begin="174.77" data-dur="0.17" tabindex="0">to</span>   <span data-index="459" data-begin="174.94" data-dur="0.47" tabindex="0">oblige</span>   <span data-index="460" data-begin="175.409" data-dur="0.21" tabindex="0">him</span>   ;  <span data-index="461" data-begin="176.029" data-dur="0.28" tabindex="0">after</span>   <span data-index="462" data-begin="176.31" data-dur="0.28" tabindex="0">some</span>   <span data-index="463" data-begin="176.589" data-dur="0.48" tabindex="0">dreadful</span>   <span data-index="464" data-begin="177.069" data-dur="0.55" tabindex="0">mistake</span>   <span data-index="465" data-begin="177.619" data-dur="0.24" tabindex="0">about</span>   <span data-index="466" data-begin="177.859" data-dur="0.049" tabindex="0">a</span>   <span data-index="467" data-begin="177.909" data-dur="0.659" tabindex="0">climate</span>   <span data-index="468" data-begin="178.73" data-dur="0.149" tabindex="0">or</span>   <span data-index="469" data-begin="178.879" data-dur="0.049" tabindex="0">a</span>   “  <span data-index="470" data-begin="178.929" data-dur="0.63" tabindex="0">cure</span>   ”  <span data-index="471" data-begin="179.879" data-dur="0.199" tabindex="0">she</span>   <span data-index="472" data-begin="180.079" data-dur="0.149" tabindex="0">had</span>   <span data-index="473" data-begin="180.23" data-dur="0.56" tabindex="0">suddenly</span>   <span data-index="474" data-begin="180.789" data-dur="0.57" tabindex="0">collapsed</span>   <span data-index="475" data-begin="181.359" data-dur="0.11" tabindex="0">on</span>   <span data-index="476" data-begin="181.469" data-dur="0.06" tabindex="0">the</span>   <span data-index="477" data-begin="181.56" data-dur="0.459" tabindex="0">return</span>   <span data-index="478" data-begin="182.02" data-dur="0.26" tabindex="0">from</span>   <span data-index="479" data-begin="182.279" data-dur="0.55" tabindex="0">abroad</span>   .  <span data-index="480" data-begin="183.35" data-dur="0.12" tabindex="0">Her</span>   <span data-index="481" data-begin="183.469" data-dur="0.48" tabindex="0">daughter</span>   ,  <span data-index="482" data-begin="184.2" data-dur="0.82" tabindex="0">unsupported</span>   <span data-index="483" data-begin="185.049" data-dur="0.14" tabindex="0">and</span>   <span data-index="484" data-begin="185.19" data-dur="0.58" tabindex="0">alarmed</span>   ,  <span data-index="485" data-begin="186.149" data-dur="0.61" tabindex="0">desiring</span>   <span data-index="486" data-begin="186.759" data-dur="0.099" tabindex="0">to</span>   <span data-index="487" data-begin="186.86" data-dur="0.229" tabindex="0">make</span>   <span data-index="488" data-begin="187.089" data-dur="0.099" tabindex="0">a</span>   <span data-index="489" data-begin="187.19" data-dur="0.32" tabindex="0">rush</span>   <span data-index="490" data-begin="187.509" data-dur="0.16" tabindex="0">for</span>   <span data-index="491" data-begin="187.669" data-dur="0.39" tabindex="0">home</span>   <span data-index="492" data-begin="188.059" data-dur="0.13" tabindex="0">but</span>   <span data-index="493" data-begin="188.219" data-dur="0.68" tabindex="0">hesitating</span>   <span data-index="494" data-begin="188.899" data-dur="0.099" tabindex="0">at</span>   <span data-index="495" data-begin="188.999" data-dur="0.13" tabindex="0">the</span>   <span data-index="496" data-begin="189.129" data-dur="0.429" tabindex="0">risk</span>   ,  <span data-index="497" data-begin="189.94" data-dur="0.149" tabindex="0">had</span>   <span data-index="498" data-begin="190.089" data-dur="0.52" tabindex="0">accepted</span>   <span data-index="499" data-begin="190.61" data-dur="0.21" tabindex="0">our</span>   <span data-index="500" data-begin="190.819" data-dur="0.42" tabindex="0">friend’s</span>   <span data-index="501" data-begin="191.239" data-dur="0.76" tabindex="0">assistance</span>   ,  <span data-index="502" data-begin="192.339" data-dur="0.149" tabindex="0">and</span>   <span data-index="503" data-begin="192.489" data-dur="0.14" tabindex="0">it</span>   <span data-index="504" data-begin="192.629" data-dur="0.17" tabindex="0">was</span>   <span data-index="505" data-begin="192.799" data-dur="0.149" tabindex="0">my</span>   <span data-index="506" data-begin="192.949" data-dur="0.539" tabindex="0">secret</span>   <span data-index="507" data-begin="193.489" data-dur="0.44" tabindex="0">belief</span>   <span data-index="508" data-begin="193.929" data-dur="0.12" tabindex="0">that</span>   <span data-index="509" data-begin="194.049" data-dur="0.149" tabindex="0">at</span>   <span data-index="510" data-begin="194.249" data-dur="0.39" tabindex="0">sight</span>   <span data-index="511" data-begin="194.639" data-dur="0.12" tabindex="0">of</span>   <span data-index="512" data-begin="194.759" data-dur="0.179" tabindex="0">him</span>   <span data-index="513" data-begin="195.129" data-dur="0.41" tabindex="0">Mrs</span>   .  <span data-index="514" data-begin="195.569" data-dur="0.399" tabindex="0">Erme</span>   <span data-index="515" data-begin="195.969" data-dur="0.17" tabindex="0">would</span>   <span data-index="516" data-begin="196.139" data-dur="0.31" tabindex="0">pull</span>   <span data-index="517" data-begin="196.449" data-dur="0.429" tabindex="0">round</span>   .  <span data-index="518" data-begin="197.759" data-dur="0.17" tabindex="0">His</span>   <span data-index="519" data-begin="197.929" data-dur="0.22" tabindex="0">own</span>   <span data-index="520" data-begin="198.149" data-dur="0.39" tabindex="0">belief</span>   <span data-index="521" data-begin="198.539" data-dur="0.14" tabindex="0">was</span>   <span data-index="522" data-begin="198.679" data-dur="0.599" tabindex="0">scarcely</span>   <span data-index="523" data-begin="199.28" data-dur="0.08" tabindex="0">to</span>   <span data-index="524" data-begin="199.359" data-dur="0.13" tabindex="0">be</span>   <span data-index="525" data-begin="199.489" data-dur="0.299" tabindex="0">called</span>   <span data-index="526" data-begin="199.789" data-dur="0.53" tabindex="0">secret</span>   ;  <span data-index="527" data-begin="200.73" data-dur="0.149" tabindex="0">it</span>   <span data-index="528" data-begin="200.879" data-dur="0.729" tabindex="0">discernibly</span>   <span data-index="529" data-begin="201.609" data-dur="0.099" tabindex="0">at</span>   <span data-index="530" data-begin="201.71" data-dur="0.26" tabindex="0">any</span>   <span data-index="531" data-begin="201.969" data-dur="0.24" tabindex="0">rate</span>   <span data-index="532" data-begin="202.21" data-dur="0.299" tabindex="0">differed</span>   <span data-index="533" data-begin="202.509" data-dur="0.199" tabindex="0">from</span>   <span data-index="534" data-begin="202.71" data-dur="0.5" tabindex="0">mine</span>   .  <span data-index="535" data-begin="203.98" data-dur="0.14" tabindex="0">He</span>   <span data-index="536" data-begin="204.12" data-dur="0.149" tabindex="0">had</span>   <span data-index="537" data-begin="204.269" data-dur="0.38" tabindex="0">showed</span>   <span data-index="538" data-begin="204.649" data-dur="0.16" tabindex="0">me</span>   <span data-index="539" data-begin="204.809" data-dur="0.61" tabindex="0">Gwendolen’s</span>   <span data-index="540" data-begin="205.419" data-dur="0.659" tabindex="0">photograph</span>   <span data-index="541" data-begin="206.079" data-dur="0.13" tabindex="0">with</span>   <span data-index="542" data-begin="206.21" data-dur="0.099" tabindex="0">the</span>   <span data-index="543" data-begin="206.309" data-dur="0.489" tabindex="0">remark</span>   <span data-index="544" data-begin="206.8" data-dur="0.12" tabindex="0">that</span>   <span data-index="545" data-begin="206.919" data-dur="0.149" tabindex="0">she</span>   <span data-index="546" data-begin="207.069" data-dur="0.42" tabindex="0">wasn’t</span>   <span data-index="547" data-begin="207.489" data-dur="0.329" tabindex="0">pretty</span>   <span data-index="548" data-begin="207.819" data-dur="0.149" tabindex="0">but</span>   <span data-index="549" data-begin="207.969" data-dur="0.22" tabindex="0">was</span>   <span data-index="550" data-begin="208.219" data-dur="0.44" tabindex="0">awfully</span>   <span data-index="551" data-begin="208.659" data-dur="0.61" tabindex="0">interesting</span>   ;  <span data-index="552" data-begin="209.629" data-dur="0.17" tabindex="0">she</span>   <span data-index="553" data-begin="209.8" data-dur="0.19" tabindex="0">had</span>   <span data-index="554" data-begin="209.989" data-dur="0.53" tabindex="0">published</span>   <span data-index="555" data-begin="210.519" data-dur="0.099" tabindex="0">at</span>   <span data-index="556" data-begin="210.62" data-dur="0.12" tabindex="0">the</span>   <span data-index="557" data-begin="210.739" data-dur="0.28" tabindex="0">age</span>   <span data-index="558" data-begin="211.019" data-dur="0.08" tabindex="0">of</span>   <span data-index="559" data-begin="211.1" data-dur="0.71" tabindex="0">nineteen</span>   <span data-index="560" data-begin="211.809" data-dur="0.04" tabindex="0">a</span>   <span data-index="561" data-begin="211.85" data-dur="0.52" tabindex="0">novel</span>   <span data-index="562" data-begin="212.37" data-dur="0.12" tabindex="0">in</span>   <span data-index="563" data-begin="212.489" data-dur="0.32" tabindex="0">three</span>   <span data-index="564" data-begin="212.809" data-dur="0.68" tabindex="0">volumes</span>   , “  <span data-index="565" data-begin="213.859" data-dur="0.329" tabindex="0">Deep</span>   <span data-index="566" data-begin="214.339" data-dur="0.599" tabindex="0">Down</span>   ,”  <span data-index="567" data-begin="215.3" data-dur="0.299" tabindex="0">about</span>   <span data-index="568" data-begin="215.629" data-dur="0.329" tabindex="0">which</span>   ,  <span data-index="569" data-begin="215.989" data-dur="0.28" tabindex="0">in</span>   <span data-index="570" data-begin="216.379" data-dur="0.13" tabindex="0">The</span>   <span data-index="571" data-begin="216.509" data-dur="0.429" tabindex="0">Middle</span>   ,  <span data-index="572" data-begin="217.159" data-dur="0.13" tabindex="0">he</span>   <span data-index="573" data-begin="217.289" data-dur="0.14" tabindex="0">had</span>   <span data-index="574" data-begin="217.429" data-dur="0.21" tabindex="0">been</span>   <span data-index="575" data-begin="217.669" data-dur="0.32" tabindex="0">really</span>   <span data-index="576" data-begin="218.019" data-dur="0.729" tabindex="0">splendid</span>   .  <span data-index="577" data-begin="219.399" data-dur="0.14" tabindex="0">He</span>   <span data-index="578" data-begin="219.539" data-dur="0.71" tabindex="0">appreciated</span>   <span data-index="579" data-begin="220.249" data-dur="0.16" tabindex="0">my</span>   <span data-index="580" data-begin="220.409" data-dur="0.459" tabindex="0">present</span>   <span data-index="581" data-begin="220.87" data-dur="0.63" tabindex="0">eagerness</span>   <span data-index="582" data-begin="221.719" data-dur="0.179" tabindex="0">and</span>   <span data-index="583" data-begin="221.929" data-dur="0.51" tabindex="0">undertook</span>   <span data-index="584" data-begin="222.44" data-dur="0.149" tabindex="0">that</span>   <span data-index="585" data-begin="222.589" data-dur="0.099" tabindex="0">the</span>   <span data-index="586" data-begin="222.69" data-dur="0.77" tabindex="0">periodical</span>   <span data-index="587" data-begin="223.46" data-dur="0.089" tabindex="0">in</span>   <span data-index="588" data-begin="223.549" data-dur="0.47" tabindex="0">question</span>   <span data-index="589" data-begin="224.019" data-dur="0.25" tabindex="0">should</span>   <span data-index="590" data-begin="224.269" data-dur="0.149" tabindex="0">do</span>   <span data-index="591" data-begin="224.419" data-dur="0.199" tabindex="0">no</span>   <span data-index="592" data-begin="224.62" data-dur="0.51" tabindex="0">less</span>   ;  <span data-index="593" data-begin="225.609" data-dur="0.34" tabindex="0">then</span>   <span data-index="594" data-begin="225.979" data-dur="0.14" tabindex="0">at</span>   <span data-index="595" data-begin="226.12" data-dur="0.089" tabindex="0">the</span>   <span data-index="596" data-begin="226.209" data-dur="0.5" tabindex="0">last</span>   ,  <span data-index="597" data-begin="226.709" data-dur="0.13" tabindex="0">with</span>   <span data-index="598" data-begin="226.839" data-dur="0.17" tabindex="0">his</span>   <span data-index="599" data-begin="227.009" data-dur="0.299" tabindex="0">hand</span>   <span data-index="600" data-begin="227.309" data-dur="0.149" tabindex="0">on</span>   <span data-index="601" data-begin="227.459" data-dur="0.099" tabindex="0">the</span>   <span data-index="602" data-begin="227.559" data-dur="0.429" tabindex="0">door</span>   ,  <span data-index="603" data-begin="228.239" data-dur="0.149" tabindex="0">he</span>   <span data-index="604" data-begin="228.389" data-dur="0.25" tabindex="0">said</span>   <span data-index="605" data-begin="228.669" data-dur="0.089" tabindex="0">to</span>   <span data-index="606" data-begin="228.759" data-dur="0.25" tabindex="0">me</span>  : “  <span data-index="607" data-begin="229.699" data-dur="0.11" tabindex="0">Of</span>   <span data-index="608" data-begin="229.809" data-dur="0.37" tabindex="0">course</span>   <span data-index="609" data-begin="230.179" data-dur="0.16" tabindex="0">you’ll</span>   <span data-index="610" data-begin="230.339" data-dur="0.16" tabindex="0">be</span>   <span data-index="611" data-begin="230.499" data-dur="0.22" tabindex="0">all</span>   <span data-index="612" data-begin="230.719" data-dur="0.28" tabindex="0">right</span>   ,  <span data-index="613" data-begin="231.0" data-dur="0.08" tabindex="0">you</span>   <span data-index="614" data-begin="231.079" data-dur="0.35" tabindex="0">know</span>   .”  <span data-index="615" data-begin="232.309" data-dur="0.41" tabindex="0">Seeing</span>   <span data-index="616" data-begin="232.719" data-dur="0.08" tabindex="0">I</span>   <span data-index="617" data-begin="232.799" data-dur="0.21" tabindex="0">was</span>   <span data-index="618" data-begin="233.009" data-dur="0.049" tabindex="0">a</span>   <span data-index="619" data-begin="233.059" data-dur="0.41" tabindex="0">trifle</span>   <span data-index="620" data-begin="233.469" data-dur="0.41" tabindex="0">vague</span>   <span data-index="621" data-begin="233.96" data-dur="0.16" tabindex="0">he</span>   <span data-index="622" data-begin="234.119" data-dur="0.44" tabindex="0">added</span>  : “  <span data-index="623" data-begin="235.03" data-dur="0.12" tabindex="0">I</span>   <span data-index="624" data-begin="235.149" data-dur="0.22" tabindex="0">mean</span>   <span data-index="625" data-begin="235.369" data-dur="0.099" tabindex="0">you</span>   <span data-index="626" data-begin="235.469" data-dur="0.229" tabindex="0">won’t</span>   <span data-index="627" data-begin="235.699" data-dur="0.12" tabindex="0">be</span>   <span data-index="628" data-begin="235.82" data-dur="0.5" tabindex="0">silly</span>   .”</p>
+<p>“  <span data-index="629" data-begin="237.35" data-dur="0.52" tabindex="0">Silly</span>  — <span data-index="630" data-begin="238.11" data-dur="0.31" tabindex="0">about</span>   <span data-index="631" data-begin="238.419" data-dur="0.55" tabindex="0">Vereker</span>  ! <span data-index="632" data-begin="239.259" data-dur="0.34" tabindex="0">Why</span>   <span data-index="633" data-begin="239.6" data-dur="0.22" tabindex="0">what</span>   <span data-index="634" data-begin="239.82" data-dur="0.179" tabindex="0">do</span>   <span data-index="635" data-begin="240.0" data-dur="0.089" tabindex="0">I</span>   <span data-index="636" data-begin="240.089" data-dur="0.25" tabindex="0">ever</span>   <span data-index="637" data-begin="240.339" data-dur="0.45" tabindex="0">find</span>   <span data-index="638" data-begin="240.789" data-dur="0.08" tabindex="0">him</span>   <span data-index="639" data-begin="240.869" data-dur="0.16" tabindex="0">but</span>   <span data-index="640" data-begin="241.089" data-dur="0.45" tabindex="0">awfully</span>   <span data-index="641" data-begin="241.539" data-dur="0.48" tabindex="0">clever</span>   ?”</p>
+<p>“  <span data-index="642" data-begin="242.949" data-dur="0.28" tabindex="0">Well</span>   ,  <span data-index="643" data-begin="243.269" data-dur="0.22" tabindex="0">what’s</span>   <span data-index="644" data-begin="243.489" data-dur="0.22" tabindex="0">that</span>   <span data-index="645" data-begin="243.71" data-dur="0.13" tabindex="0">but</span>   <span data-index="646" data-begin="243.839" data-dur="0.53" tabindex="0">silly</span>   ?  <span data-index="647" data-begin="245.07" data-dur="0.16" tabindex="0">What</span>   <span data-index="648" data-begin="245.229" data-dur="0.14" tabindex="0">on</span>   <span data-index="649" data-begin="245.5" data-dur="0.28" tabindex="0">earth</span>   <span data-index="650" data-begin="245.78" data-dur="0.22" tabindex="0">does</span>  ‘ <span data-index="651" data-begin="246.0" data-dur="0.38" tabindex="0">awfully</span>   <span data-index="652" data-begin="246.379" data-dur="0.39" tabindex="0">clever</span>  ’ <span data-index="653" data-begin="246.769" data-dur="0.399" tabindex="0">mean</span>   ?  <span data-index="654" data-begin="247.479" data-dur="0.099" tabindex="0">For</span>   <span data-index="655" data-begin="247.579" data-dur="0.41" tabindex="0">God’s</span>   <span data-index="656" data-begin="247.989" data-dur="0.38" tabindex="0">sake</span>   <span data-index="657" data-begin="248.369" data-dur="0.25" tabindex="0">try</span>   <span data-index="658" data-begin="248.619" data-dur="0.089" tabindex="0">to</span>   <span data-index="659" data-begin="248.71" data-dur="0.21" tabindex="0">get</span>   <span data-index="660" data-begin="249.009" data-dur="0.29" tabindex="0">AT</span>   <span data-index="661" data-begin="249.329" data-dur="0.269" tabindex="0">him</span>   .  <span data-index="662" data-begin="249.93" data-dur="0.26" tabindex="0">Don’t</span>   <span data-index="663" data-begin="250.189" data-dur="0.13" tabindex="0">let</span>   <span data-index="664" data-begin="250.32" data-dur="0.16" tabindex="0">him</span>   <span data-index="665" data-begin="250.479" data-dur="0.44" tabindex="0">suffer</span>   <span data-index="666" data-begin="250.919" data-dur="0.28" tabindex="0">by</span>   <span data-index="667" data-begin="251.199" data-dur="0.34" tabindex="0">our</span>   <span data-index="668" data-begin="251.57" data-dur="0.56" tabindex="0">arrangement</span>   .  <span data-index="669" data-begin="252.489" data-dur="0.37" tabindex="0">Speak</span>   <span data-index="670" data-begin="252.859" data-dur="0.11" tabindex="0">of</span>   <span data-index="671" data-begin="252.969" data-dur="0.24" tabindex="0">him</span>   ,  <span data-index="672" data-begin="253.21" data-dur="0.12" tabindex="0">you</span>   <span data-index="673" data-begin="253.329" data-dur="0.299" tabindex="0">know</span>   ,  <span data-index="674" data-begin="253.629" data-dur="0.16" tabindex="0">if</span>   <span data-index="675" data-begin="253.789" data-dur="0.12" tabindex="0">you</span>   <span data-index="676" data-begin="253.909" data-dur="0.44" tabindex="0">can</span>   ,  <span data-index="677" data-begin="254.399" data-dur="0.25" tabindex="0">as</span>   <span data-index="678" data-begin="254.68" data-dur="0.28" tabindex="0">I</span>   <span data-index="679" data-begin="254.96" data-dur="0.229" tabindex="0">should</span>   <span data-index="680" data-begin="255.189" data-dur="0.11" tabindex="0">have</span>   <span data-index="681" data-begin="255.299" data-dur="0.45" tabindex="0">spoken</span>   <span data-index="682" data-begin="255.75" data-dur="0.149" tabindex="0">of</span>   <span data-index="683" data-begin="255.899" data-dur="0.199" tabindex="0">him</span>   .”</p>
+<p> <span data-index="684" data-begin="257.259" data-dur="0.13" tabindex="0">I</span>   <span data-index="685" data-begin="257.39" data-dur="0.44" tabindex="0">wondered</span>   <span data-index="686" data-begin="257.829" data-dur="0.14" tabindex="0">an</span>   <span data-index="687" data-begin="257.969" data-dur="0.48" tabindex="0">instant</span>   . “  <span data-index="688" data-begin="258.929" data-dur="0.16" tabindex="0">You</span>   <span data-index="689" data-begin="259.089" data-dur="0.31" tabindex="0">mean</span>   <span data-index="690" data-begin="259.399" data-dur="0.19" tabindex="0">as</span>   <span data-index="691" data-begin="259.589" data-dur="0.32" tabindex="0">far</span>   <span data-index="692" data-begin="259.909" data-dur="0.089" tabindex="0">and</span>   <span data-index="693" data-begin="260.0" data-dur="0.35" tabindex="0">away</span>   <span data-index="694" data-begin="260.35" data-dur="0.089" tabindex="0">the</span>   <span data-index="695" data-begin="260.439" data-dur="0.399" tabindex="0">biggest</span>   <span data-index="696" data-begin="260.839" data-dur="0.099" tabindex="0">of</span>   <span data-index="697" data-begin="260.939" data-dur="0.089" tabindex="0">the</span>   <span data-index="698" data-begin="261.03" data-dur="0.359" tabindex="0">lot</span>  — <span data-index="699" data-begin="261.5" data-dur="0.21" tabindex="0">that</span>   <span data-index="700" data-begin="261.71" data-dur="0.25" tabindex="0">sort</span>   <span data-index="701" data-begin="261.96" data-dur="0.099" tabindex="0">of</span>   <span data-index="702" data-begin="262.059" data-dur="0.359" tabindex="0">thing</span>   ?”</p>
+<p> <span data-index="703" data-begin="263.269" data-dur="0.47" tabindex="0">Corvick</span>   <span data-index="704" data-begin="263.739" data-dur="0.459" tabindex="0">almost</span>   <span data-index="705" data-begin="264.25" data-dur="0.52" tabindex="0">groaned</span>   . “  <span data-index="706" data-begin="265.28" data-dur="0.21" tabindex="0">Oh</span>   <span data-index="707" data-begin="265.519" data-dur="0.149" tabindex="0">you</span>   <span data-index="708" data-begin="265.719" data-dur="0.22" tabindex="0">know</span>   ,  <span data-index="709" data-begin="265.939" data-dur="0.17" tabindex="0">I</span>   <span data-index="710" data-begin="266.109" data-dur="0.25" tabindex="0">don’t</span>   <span data-index="711" data-begin="266.359" data-dur="0.21" tabindex="0">put</span>   <span data-index="712" data-begin="266.57" data-dur="0.16" tabindex="0">them</span>   <span data-index="713" data-begin="266.729" data-dur="0.25" tabindex="0">back</span>   <span data-index="714" data-begin="266.979" data-dur="0.11" tabindex="0">to</span>   <span data-index="715" data-begin="267.089" data-dur="0.329" tabindex="0">back</span>   <span data-index="716" data-begin="267.449" data-dur="0.24" tabindex="0">that</span>   <span data-index="717" data-begin="267.689" data-dur="0.38" tabindex="0">way</span>   ;  <span data-index="718" data-begin="268.369" data-dur="0.229" tabindex="0">it’s</span>   <span data-index="719" data-begin="268.6" data-dur="0.149" tabindex="0">the</span>   <span data-index="720" data-begin="268.78" data-dur="0.599" tabindex="0">infancy</span>   <span data-index="721" data-begin="269.379" data-dur="0.14" tabindex="0">of</span>   <span data-index="722" data-begin="269.549" data-dur="0.38" tabindex="0">art</span>  ! <span data-index="723" data-begin="270.32" data-dur="0.17" tabindex="0">But</span>   <span data-index="724" data-begin="270.489" data-dur="0.17" tabindex="0">he</span>   <span data-index="725" data-begin="270.659" data-dur="0.329" tabindex="0">gives</span>   <span data-index="726" data-begin="270.989" data-dur="0.149" tabindex="0">me</span>   <span data-index="727" data-begin="271.14" data-dur="0.07" tabindex="0">a</span>   <span data-index="728" data-begin="271.21" data-dur="0.42" tabindex="0">pleasure</span>   <span data-index="729" data-begin="271.629" data-dur="0.28" tabindex="0">so</span>   <span data-index="730" data-begin="271.939" data-dur="0.51" tabindex="0">rare</span>   ;  <span data-index="731" data-begin="272.82" data-dur="0.099" tabindex="0">the</span>   <span data-index="732" data-begin="272.919" data-dur="0.35" tabindex="0">sense</span>   <span data-index="733" data-begin="273.269" data-dur="0.28" tabindex="0">of</span>   ” — <span data-index="734" data-begin="274.1" data-dur="0.089" tabindex="0">he</span>   <span data-index="735" data-begin="274.189" data-dur="0.44" tabindex="0">mused</span>   <span data-index="736" data-begin="274.629" data-dur="0.03" tabindex="0">a</span>   <span data-index="737" data-begin="274.659" data-dur="0.37" tabindex="0">little</span>  — “  <span data-index="738" data-begin="275.369" data-dur="0.41" tabindex="0">something</span>   <span data-index="739" data-begin="275.78" data-dur="0.13" tabindex="0">or</span>   <span data-index="740" data-begin="275.909" data-dur="0.25" tabindex="0">other</span>   .”</p>
+<p> <span data-index="741" data-begin="277.479" data-dur="0.14" tabindex="0">I</span>   <span data-index="742" data-begin="277.619" data-dur="0.41" tabindex="0">wondered</span>   <span data-index="743" data-begin="278.029" data-dur="0.5" tabindex="0">again</span>   . “  <span data-index="744" data-begin="279.02" data-dur="0.08" tabindex="0">The</span>   <span data-index="745" data-begin="279.1" data-dur="0.42" tabindex="0">sense</span>   ,  <span data-index="746" data-begin="279.52" data-dur="0.459" tabindex="0">pray</span>   ,  <span data-index="747" data-begin="279.98" data-dur="0.22" tabindex="0">of</span>   <span data-index="748" data-begin="280.23" data-dur="0.41" tabindex="0">want</span>   ?”</p>
+<p>“  <span data-index="749" data-begin="281.409" data-dur="0.22" tabindex="0">My</span>   <span data-index="750" data-begin="281.659" data-dur="0.24" tabindex="0">dear</span>   <span data-index="751" data-begin="281.9" data-dur="0.41" tabindex="0">man</span>   ,  <span data-index="752" data-begin="282.449" data-dur="0.269" tabindex="0">that’s</span>   <span data-index="753" data-begin="282.719" data-dur="0.269" tabindex="0">just</span>   <span data-index="754" data-begin="282.989" data-dur="0.13" tabindex="0">what</span>   <span data-index="755" data-begin="283.119" data-dur="0.099" tabindex="0">I</span>   <span data-index="756" data-begin="283.219" data-dur="0.34" tabindex="0">want</span>   <span data-index="757" data-begin="283.56" data-dur="0.31" tabindex="0">YOU</span>   <span data-index="758" data-begin="283.869" data-dur="0.149" tabindex="0">to</span>   <span data-index="759" data-begin="284.02" data-dur="0.429" tabindex="0">say</span>  ! ”</p>
+<p> <span data-index="760" data-begin="285.259" data-dur="0.32" tabindex="0">Even</span>   <span data-index="761" data-begin="285.579" data-dur="0.35" tabindex="0">before</span>   <span data-index="762" data-begin="285.929" data-dur="0.16" tabindex="0">he</span>   <span data-index="763" data-begin="286.089" data-dur="0.14" tabindex="0">had</span>   <span data-index="764" data-begin="286.23" data-dur="0.37" tabindex="0">banged</span>   <span data-index="765" data-begin="286.6" data-dur="0.08" tabindex="0">the</span>   <span data-index="766" data-begin="286.679" data-dur="0.39" tabindex="0">door</span>   <span data-index="767" data-begin="287.1" data-dur="0.17" tabindex="0">I</span>   <span data-index="768" data-begin="287.27" data-dur="0.149" tabindex="0">had</span>   <span data-index="769" data-begin="287.419" data-dur="0.58" tabindex="0">begun</span>   ,  <span data-index="770" data-begin="287.999" data-dur="0.22" tabindex="0">book</span>   <span data-index="771" data-begin="288.219" data-dur="0.149" tabindex="0">in</span>   <span data-index="772" data-begin="288.37" data-dur="0.429" tabindex="0">hand</span>   ,  <span data-index="773" data-begin="289.12" data-dur="0.099" tabindex="0">to</span>   <span data-index="774" data-begin="289.219" data-dur="0.5" tabindex="0">prepare</span>   <span data-index="775" data-begin="289.719" data-dur="0.489" tabindex="0">myself</span>   <span data-index="776" data-begin="290.209" data-dur="0.11" tabindex="0">to</span>   <span data-index="777" data-begin="290.319" data-dur="0.359" tabindex="0">say</span>   <span data-index="778" data-begin="290.709" data-dur="0.099" tabindex="0">it</span>   .  <span data-index="779" data-begin="291.45" data-dur="0.099" tabindex="0">I</span>   <span data-index="780" data-begin="291.549" data-dur="0.32" tabindex="0">sat</span>   <span data-index="781" data-begin="291.87" data-dur="0.199" tabindex="0">up</span>   <span data-index="782" data-begin="292.069" data-dur="0.16" tabindex="0">with</span>   <span data-index="783" data-begin="292.229" data-dur="0.5" tabindex="0">Vereker</span>   <span data-index="784" data-begin="292.799" data-dur="0.329" tabindex="0">half</span>   <span data-index="785" data-begin="293.129" data-dur="0.11" tabindex="0">the</span>   <span data-index="786" data-begin="293.239" data-dur="0.35" tabindex="0">night</span>   ;  <span data-index="787" data-begin="294.009" data-dur="0.459" tabindex="0">Corvick</span>   <span data-index="788" data-begin="294.469" data-dur="0.29" tabindex="0">couldn’t</span>   <span data-index="789" data-begin="294.759" data-dur="0.12" tabindex="0">have</span>   <span data-index="790" data-begin="294.879" data-dur="0.19" tabindex="0">done</span>   <span data-index="791" data-begin="295.069" data-dur="0.28" tabindex="0">more</span>   <span data-index="792" data-begin="295.35" data-dur="0.19" tabindex="0">than</span>   <span data-index="793" data-begin="295.539" data-dur="0.32" tabindex="0">that</span>   .  <span data-index="794" data-begin="296.459" data-dur="0.13" tabindex="0">He</span>   <span data-index="795" data-begin="296.589" data-dur="0.22" tabindex="0">was</span>   <span data-index="796" data-begin="296.839" data-dur="0.45" tabindex="0">awfully</span>   <span data-index="797" data-begin="297.289" data-dur="0.44" tabindex="0">clever</span>  — <span data-index="798" data-begin="297.879" data-dur="0.13" tabindex="0">I</span>   <span data-index="799" data-begin="298.009" data-dur="0.299" tabindex="0">stuck</span>   <span data-index="800" data-begin="298.309" data-dur="0.179" tabindex="0">to</span>   <span data-index="801" data-begin="298.489" data-dur="0.29" tabindex="0">that</span>   ,  <span data-index="802" data-begin="299.149" data-dur="0.12" tabindex="0">but</span>   <span data-index="803" data-begin="299.27" data-dur="0.14" tabindex="0">he</span>   <span data-index="804" data-begin="299.409" data-dur="0.39" tabindex="0">wasn’t</span>   <span data-index="805" data-begin="299.799" data-dur="0.03" tabindex="0">a</span>   <span data-index="806" data-begin="300.169" data-dur="0.22" tabindex="0">bit</span>   <span data-index="807" data-begin="300.469" data-dur="0.089" tabindex="0">the</span>   <span data-index="808" data-begin="300.559" data-dur="0.429" tabindex="0">biggest</span>   <span data-index="809" data-begin="300.989" data-dur="0.11" tabindex="0">of</span>   <span data-index="810" data-begin="301.1" data-dur="0.089" tabindex="0">the</span>   <span data-index="811" data-begin="301.19" data-dur="0.359" tabindex="0">lot</span>   .  <span data-index="812" data-begin="302.049" data-dur="0.12" tabindex="0">I</span>   <span data-index="813" data-begin="302.169" data-dur="0.329" tabindex="0">didn’t</span>   <span data-index="814" data-begin="302.499" data-dur="0.38" tabindex="0">allude</span>   <span data-index="815" data-begin="302.879" data-dur="0.11" tabindex="0">to</span>   <span data-index="816" data-begin="303.019" data-dur="0.089" tabindex="0">the</span>   <span data-index="817" data-begin="303.109" data-dur="0.35" tabindex="0">lot</span>   ,  <span data-index="818" data-begin="303.569" data-dur="0.55" tabindex="0">however</span>   ;  <span data-index="819" data-begin="304.499" data-dur="0.12" tabindex="0">I</span>   <span data-index="820" data-begin="304.62" data-dur="0.489" tabindex="0">flattered</span>   <span data-index="821" data-begin="305.109" data-dur="0.489" tabindex="0">myself</span>   <span data-index="822" data-begin="305.6" data-dur="0.149" tabindex="0">that</span>   <span data-index="823" data-begin="305.749" data-dur="0.16" tabindex="0">I</span>   <span data-index="824" data-begin="305.909" data-dur="0.68" tabindex="0">emerged</span>   <span data-index="825" data-begin="306.589" data-dur="0.12" tabindex="0">on</span>   <span data-index="826" data-begin="306.71" data-dur="0.179" tabindex="0">this</span>   <span data-index="827" data-begin="306.89" data-dur="0.59" tabindex="0">occasion</span>   <span data-index="828" data-begin="307.62" data-dur="0.26" tabindex="0">from</span>   <span data-index="829" data-begin="307.879" data-dur="0.16" tabindex="0">the</span>   <span data-index="830" data-begin="308.089" data-dur="0.65" tabindex="0">infancy</span>   <span data-index="831" data-begin="308.809" data-dur="0.19" tabindex="0">of</span>   <span data-index="832" data-begin="309.03" data-dur="0.399" tabindex="0">art</span>   . “  <span data-index="833" data-begin="310.199" data-dur="0.19" tabindex="0">It’s</span>   <span data-index="834" data-begin="310.39" data-dur="0.179" tabindex="0">all</span>   <span data-index="835" data-begin="310.569" data-dur="0.329" tabindex="0">right</span>   ,”  <span data-index="836" data-begin="311.03" data-dur="0.16" tabindex="0">they</span>   <span data-index="837" data-begin="311.19" data-dur="0.42" tabindex="0">declared</span>   <span data-index="838" data-begin="311.609" data-dur="0.539" tabindex="0">vividly</span>   <span data-index="839" data-begin="312.149" data-dur="0.11" tabindex="0">at</span>   <span data-index="840" data-begin="312.259" data-dur="0.149" tabindex="0">the</span>   <span data-index="841" data-begin="312.409" data-dur="0.52" tabindex="0">office</span>   ;  <span data-index="842" data-begin="313.289" data-dur="0.149" tabindex="0">and</span>   <span data-index="843" data-begin="313.44" data-dur="0.149" tabindex="0">when</span>   <span data-index="844" data-begin="313.589" data-dur="0.08" tabindex="0">the</span>   <span data-index="845" data-begin="313.669" data-dur="0.42" tabindex="0">number</span>   <span data-index="846" data-begin="314.089" data-dur="0.51" tabindex="0">appeared</span>   <span data-index="847" data-begin="314.64" data-dur="0.099" tabindex="0">I</span>   <span data-index="848" data-begin="314.739" data-dur="0.269" tabindex="0">felt</span>   <span data-index="849" data-begin="315.009" data-dur="0.089" tabindex="0">there</span>   <span data-index="850" data-begin="315.1" data-dur="0.16" tabindex="0">was</span>   <span data-index="851" data-begin="315.259" data-dur="0.049" tabindex="0">a</span>   <span data-index="852" data-begin="315.309" data-dur="0.489" tabindex="0">basis</span>   <span data-index="853" data-begin="315.8" data-dur="0.13" tabindex="0">on</span>   <span data-index="854" data-begin="315.929" data-dur="0.22" tabindex="0">which</span>   <span data-index="855" data-begin="316.149" data-dur="0.089" tabindex="0">I</span>   <span data-index="856" data-begin="316.239" data-dur="0.199" tabindex="0">could</span>   <span data-index="857" data-begin="316.44" data-dur="0.31" tabindex="0">meet</span>   <span data-index="858" data-begin="316.749" data-dur="0.08" tabindex="0">the</span>   <span data-index="859" data-begin="316.829" data-dur="0.26" tabindex="0">great</span>   <span data-index="860" data-begin="317.12" data-dur="0.429" tabindex="0">man</span>   .  <span data-index="861" data-begin="318.179" data-dur="0.14" tabindex="0">It</span>   <span data-index="862" data-begin="318.319" data-dur="0.199" tabindex="0">gave</span>   <span data-index="863" data-begin="318.519" data-dur="0.14" tabindex="0">me</span>   <span data-index="864" data-begin="318.659" data-dur="0.729" tabindex="0">confidence</span>   <span data-index="865" data-begin="319.389" data-dur="0.16" tabindex="0">for</span>   <span data-index="866" data-begin="319.55" data-dur="0.06" tabindex="0">a</span>   <span data-index="867" data-begin="319.609" data-dur="0.229" tabindex="0">day</span>   <span data-index="868" data-begin="319.839" data-dur="0.089" tabindex="0">or</span>   <span data-index="869" data-begin="319.929" data-dur="0.39" tabindex="0">two</span>  — <span data-index="870" data-begin="320.789" data-dur="0.22" tabindex="0">then</span>   <span data-index="871" data-begin="321.009" data-dur="0.199" tabindex="0">that</span>   <span data-index="872" data-begin="321.21" data-dur="0.669" tabindex="0">confidence</span>   <span data-index="873" data-begin="321.879" data-dur="0.41" tabindex="0">dropped</span>   .  <span data-index="874" data-begin="323.03" data-dur="0.12" tabindex="0">I</span>   <span data-index="875" data-begin="323.149" data-dur="0.17" tabindex="0">had</span>   <span data-index="876" data-begin="323.319" data-dur="0.51" tabindex="0">fancied</span>   <span data-index="877" data-begin="323.829" data-dur="0.13" tabindex="0">him</span>   <span data-index="878" data-begin="323.96" data-dur="0.35" tabindex="0">reading</span>   <span data-index="879" data-begin="324.339" data-dur="0.16" tabindex="0">it</span>   <span data-index="880" data-begin="324.499" data-dur="0.16" tabindex="0">with</span>   <span data-index="881" data-begin="324.659" data-dur="0.56" tabindex="0">relish</span>   ,  <span data-index="882" data-begin="325.579" data-dur="0.13" tabindex="0">but</span>   <span data-index="883" data-begin="325.71" data-dur="0.14" tabindex="0">if</span>   <span data-index="884" data-begin="325.879" data-dur="0.45" tabindex="0">Corvick</span>   <span data-index="885" data-begin="326.329" data-dur="0.32" tabindex="0">wasn’t</span>   <span data-index="886" data-begin="326.649" data-dur="0.76" tabindex="0">satisfied</span>   <span data-index="887" data-begin="327.729" data-dur="0.199" tabindex="0">how</span>   <span data-index="888" data-begin="327.929" data-dur="0.149" tabindex="0">could</span>   <span data-index="889" data-begin="328.079" data-dur="0.44" tabindex="0">Vereker</span>   <span data-index="890" data-begin="328.519" data-dur="0.599" tabindex="0">himself</span>   <span data-index="891" data-begin="329.12" data-dur="0.29" tabindex="0">be</span>   ?  <span data-index="892" data-begin="330.109" data-dur="0.12" tabindex="0">I</span>   <span data-index="893" data-begin="330.229" data-dur="0.59" tabindex="0">reflected</span>   <span data-index="894" data-begin="330.819" data-dur="0.47" tabindex="0">indeed</span>   <span data-index="895" data-begin="331.289" data-dur="0.17" tabindex="0">that</span>   <span data-index="896" data-begin="331.459" data-dur="0.08" tabindex="0">the</span>   <span data-index="897" data-begin="331.569" data-dur="0.28" tabindex="0">heat</span>   <span data-index="898" data-begin="331.85" data-dur="0.07" tabindex="0">of</span>   <span data-index="899" data-begin="331.919" data-dur="0.179" tabindex="0">the</span>   <span data-index="900" data-begin="332.1" data-dur="0.64" tabindex="0">admirer</span>   <span data-index="901" data-begin="332.989" data-dur="0.14" tabindex="0">was</span>   <span data-index="902" data-begin="333.129" data-dur="0.53" tabindex="0">sometimes</span>   <span data-index="903" data-begin="333.659" data-dur="0.53" tabindex="0">grosser</span>   <span data-index="904" data-begin="334.289" data-dur="0.41" tabindex="0">even</span>   <span data-index="905" data-begin="334.729" data-dur="0.13" tabindex="0">than</span>   <span data-index="906" data-begin="334.86" data-dur="0.14" tabindex="0">the</span>   <span data-index="907" data-begin="335.0" data-dur="0.56" tabindex="0">appetite</span>   <span data-index="908" data-begin="335.6" data-dur="0.06" tabindex="0">of</span>   <span data-index="909" data-begin="335.689" data-dur="0.13" tabindex="0">the</span>   <span data-index="910" data-begin="335.82" data-dur="0.63" tabindex="0">scribe</span>   .  <span data-index="911" data-begin="337.559" data-dur="0.459" tabindex="0">Corvick</span>   <span data-index="912" data-begin="338.059" data-dur="0.13" tabindex="0">at</span>   <span data-index="913" data-begin="338.189" data-dur="0.199" tabindex="0">all</span>   <span data-index="914" data-begin="338.39" data-dur="0.429" tabindex="0">events</span>   <span data-index="915" data-begin="338.82" data-dur="0.25" tabindex="0">wrote</span>   <span data-index="916" data-begin="339.07" data-dur="0.11" tabindex="0">me</span>   <span data-index="917" data-begin="339.18" data-dur="0.21" tabindex="0">from</span>   <span data-index="918" data-begin="339.39" data-dur="0.52" tabindex="0">Paris</span>   <span data-index="919" data-begin="339.949" data-dur="0.08" tabindex="0">a</span>   <span data-index="920" data-begin="340.03" data-dur="0.329" tabindex="0">little</span>   <span data-index="921" data-begin="340.39" data-dur="0.25" tabindex="0">ill</span>  - <span data-index="922" data-begin="340.64" data-dur="0.68" tabindex="0">humouredly</span>   .  <span data-index="923" data-begin="341.879" data-dur="0.38" tabindex="0">Mrs</span>   .  <span data-index="924" data-begin="342.289" data-dur="0.39" tabindex="0">Erme</span>   <span data-index="925" data-begin="342.68" data-dur="0.399" tabindex="0">was</span>   <span data-index="926" data-begin="343.11" data-dur="0.39" tabindex="0">pulling</span>   <span data-index="927" data-begin="343.5" data-dur="0.41" tabindex="0">round</span>   ,  <span data-index="928" data-begin="344.289" data-dur="0.17" tabindex="0">and</span>   <span data-index="929" data-begin="344.46" data-dur="0.099" tabindex="0">I</span>   <span data-index="930" data-begin="344.589" data-dur="0.35" tabindex="0">hadn’t</span>   <span data-index="931" data-begin="344.939" data-dur="0.14" tabindex="0">at</span>   <span data-index="932" data-begin="345.119" data-dur="0.35" tabindex="0">all</span>   <span data-index="933" data-begin="345.5" data-dur="0.31" tabindex="0">said</span>   <span data-index="934" data-begin="345.809" data-dur="0.229" tabindex="0">what</span>   <span data-index="935" data-begin="346.039" data-dur="0.51" tabindex="0">Vereker</span>   <span data-index="936" data-begin="346.549" data-dur="0.29" tabindex="0">gave</span>   <span data-index="937" data-begin="346.839" data-dur="0.16" tabindex="0">him</span>   <span data-index="938" data-begin="347.03" data-dur="0.07" tabindex="0">the</span>   <span data-index="939" data-begin="347.1" data-dur="0.399" tabindex="0">sense</span>   <span data-index="940" data-begin="347.53" data-dur="0.19" tabindex="0">of</span>   .</p>
+<p> <span class="nomatch">Last</span>  <span class="nomatch">updated</span>  <span class="nomatch">Sunday</span>  ,  <span class="nomatch">March</span> 27 , 2016 <span class="nomatch">at</span> 11:56 </p>
+            </div>
+
+            <footer class="credits">
+                <div>阅读外语经典，了解世界文化，复兴中华文明</div>
+                <div>听语族外语软件工作室出品 湖南长沙</div>
+            </footer>
+        </article>
+
+        <footer class="credits">
+            Support by
+            <a rel="author" href="mailto:knightmade@qq.com">meng gang</a>,
+            Code licensed <a href="http://www.opensource.org/licenses/MIT" rel="license">MIT</a>/<a href="http://www.gnu.org/licenses/gpl.html" rel="license">GPL</a>.
+        </footer>
+
+<script type="text/javascript">
+
+    /**
+     * HTML5 Audio Read-Along
+     * @author Weston Ruter, X-Team
+     * @license MIT/GPL
+     * https://github.com/westonruter/html5-audio-read-along
+     */
+    var ReadAlong = {
+        text_element: null,
+        audio_element: null,
+        autofocus_current_word: true,
+
+        words: [],
+
+        init: function (args) {
+            var name;
+            for (name in args) {
+                this[name] = args[name];
+            }
+            this.generateWordList();
+            this.addEventListeners();
+            this.selectCurrentWord();
+        },
+
+        /**
+         * Build an index of all of the words that can be read along with their begin,
+         * and end times, and the DOM element representing the word.
+         */
+        generateWordList: function () {
+            var word_els = this.text_element.querySelectorAll('[data-begin]');
+            this.words = Array.prototype.map.call(word_els, function (word_el, index) {
+                var word = {
+                    'begin': parseFloat(word_el.dataset.begin),
+                    'dur': parseFloat(word_el.dataset.dur),
+                    'element': word_el
+                };
+                word_el.tabIndex = 0; // to make it focusable/interactive
+                word.index = index;
+                word.end = word.begin + word.dur;
+                word_el.dataset.index = word.index;
+                return word;
+            });
+        },
+
+        /**
+         * From the audio's currentTime, find the word that is currently being played
+         * @todo this would better be implemented as a binary search
+         */
+        getCurrentWord: function () {
+            var i;
+            var len;
+            var is_current_word;
+            var word = null;
+            for (i = 0, len = this.words.length; i < len; i += 1) {
+                is_current_word = (
+                    (
+                        this.audio_element.currentTime >= this.words[i].begin
+                        &&
+                        this.audio_element.currentTime < this.words[i].end
+                    )
+                    ||
+                    (this.audio_element.currentTime < this.words[i].begin)
+                );
+                if (is_current_word) {
+                    word = this.words[i];
+                    break;
+                }
+            }
+
+            if (!word) {
+                throw Error('Unable to find current word and we should always be able to.');
+            }
+            return word;
+        },
+
+        _current_end_select_timeout_id: null,
+        _current_next_select_timeout_id: null,
+
+        /**
+         * Select the current word and set timeout to select the next one if playing
+         */
+        selectCurrentWord: function() {
+            var that = this;
+            var current_word = this.getCurrentWord();
+            var is_playing = !this.audio_element.paused;
+
+            if (!current_word.element.classList.contains('speaking')) {
+                this.removeWordSelection();
+                current_word.element.classList.add('speaking');
+                if (this.autofocus_current_word) {
+                    current_word.element.focus();
+                }
+            }
+
+            /**
+             * The timeupdate Media event does not fire repeatedly enough to be
+             * able to rely on for updating the selected word (it hovers around
+             * 250ms resolution), so we add a setTimeout with the exact duration
+             * of the word.
+             */
+            if (is_playing) {
+                // Remove word selection when the word ceases to be spoken
+                var seconds_until_this_word_ends = current_word.end - this.audio_element.currentTime; // Note: 'word' not 'world'! ;-)
+                if (typeof this.audio_element === 'number' && !isNaN(this.audio_element)) {
+                    seconds_until_this_word_ends *= 1.0/this.audio_element.playbackRate;
+                }
+                clearTimeout(this._current_end_select_timeout_id);
+                this._current_end_select_timeout_id = setTimeout(
+                    function () {
+                        if (!that.audio_element.paused) { // we always want to have a word selected while paused
+                            current_word.element.classList.remove('speaking');
+                        }
+                    },
+                    Math.max(seconds_until_this_word_ends * 1000, 0)
+                );
+
+                // Automatically trigger selectCurrentWord when the next word begins
+                var next_word = this.words[current_word.index + 1];
+                if (next_word) {
+                    var seconds_until_next_word_begins = next_word.begin - this.audio_element.currentTime;
+
+                    var orig_seconds_until_next_word_begins = seconds_until_next_word_begins; // temp
+                    if (typeof this.audio_element === 'number' && !isNaN(this.audio_element)) {
+                        seconds_until_next_word_begins *= 1.0/this.audio_element.playbackRate;
+                    }
+                    clearTimeout(this._current_next_select_timeout_id);
+                    this._current_next_select_timeout_id = setTimeout(
+                        function () {
+                            that.selectCurrentWord();
+                        },
+                        Math.max(seconds_until_next_word_begins * 1000, 0)
+                    );
+                }
+            }
+
+        },
+
+        removeWordSelection: function() {
+            // There should only be one element with .speaking, but selecting all for good measure
+            var spoken_word_els = this.text_element.querySelectorAll('span[data-begin].speaking');
+            Array.prototype.forEach.call(spoken_word_els, function (spoken_word_el) {
+                spoken_word_el.classList.remove('speaking');
+            });
+        },
+
+
+        addEventListeners: function () {
+            var that = this;
+
+            /**
+             * Select next word (at that.audio_element.currentTime) when playing begins
+             */
+            that.audio_element.addEventListener('play', function (e) {
+                that.selectCurrentWord();
+                that.text_element.classList.add('speaking');
+            }, false);
+
+            /**
+             * Abandon seeking the next word because we're paused
+             */
+            that.audio_element.addEventListener('pause', function (e) {
+                that.selectCurrentWord(); // We always want a word to be selected
+                that.text_element.classList.remove('speaking');
+            }, false);
+
+            /**
+             * Seek by selecting a word (event delegation)
+             */
+            function on_select_word_el(e) {
+                if (!e.target.dataset.begin) {
+                    return;
+                }
+                e.preventDefault();
+
+                var i = e.target.dataset.index;
+                that.audio_element.currentTime = that.words[i].begin + 0.01; //Note: times apparently cannot be exactly set and sometimes select too early
+                that.selectCurrentWord();
+            }
+            that.text_element.addEventListener('click', on_select_word_el, false);
+            that.text_element.addEventListener('keypress', function (e) {
+                if ( (e.charCode || e.keyCode) === 13 /*Enter*/) {
+                    on_select_word_el.call(this, e);
+                }
+            }, false);
+
+            /**
+             * Spacebar toggles playback
+             */
+            document.addEventListener('keypress', function (e) {
+                if ( (e.charCode || e.keyCode) === 32 /*Space*/) {
+                    e.preventDefault();
+                    if (that.audio_element.paused) {
+                        that.audio_element.play();
+                    }
+                    else {
+                        that.audio_element.pause();
+                    }
+                }
+            }, false);
+
+            /**
+             * First click handler sets currentTime to the word, and second click
+             * here then causes it to play.
+             * @todo Should it stop playing once the duration is over?
+             */
+            that.text_element.addEventListener('dblclick', function (e) {
+                e.preventDefault();
+                that.audio_element.play();
+            }, false);
+
+            /**
+             * Select a word when seeking
+             */
+            that.audio_element.addEventListener('seeked', function (e) {
+                that.selectCurrentWord();
+
+                /**
+                 * Address probem with Chrome where sometimes it seems to get stuck upon seeked:
+                 * http://code.google.com/p/chromium/issues/detail?id=99749
+                 */
+                var audio_element = this;
+                if (!audio_element.paused) {
+                    var previousTime = audio_element.currentTime;
+                    setTimeout(function () {
+                        if (!audio_element.paused && previousTime === audio_element.currentTime) {
+                            audio_element.currentTime += 0.01; // Attempt to unstick
+                        }
+                    }, 500);
+                }
+            }, false);
+
+            /**
+             * Select a word when seeking
+             */
+            that.audio_element.addEventListener('ratechange', function (e) {
+                that.selectCurrentWord();
+            }, false);
+        }
+    };
+
+    /*global ReadAlong */
+    window.addEventListener('load', function (e) {
+        try {
+            var args = {
+                text_element: document.getElementById('passage-text'),
+                audio_element: document.getElementById('passage-audio'),
+                autofocus_current_word: document.getElementById('autofocus-current-word').checked
+            };
+
+            if (!args.audio_element.canPlayType) {
+                // No error messaging is needed because error message appears in <audio> fallback
+                throw new Error('HTML5 Audio not supported');
+            }
+            if (args.audio_element.networkState === args.audio_element.NETWORK_NO_SOURCE) {
+                document.querySelector('.passage-audio-unavailable').hidden = false;
+                throw new Error('Cannot play any of the available sources');
+            }
+
+            var supports_playback_rate = (function (audio) {
+                if (typeof audio.playbackRate !== 'number' || isNaN(audio.playbackRate)) {
+                    return false;
+                }
+
+                // For Opera, since it doesn't currently support playbackRate and yet
+                // has it defined as 1.0, we can detect Opera support by changing
+                // the playbackRate and see if the change sticks.
+                var original_playback_rate = audio.playbackRate;
+                audio.playbackRate += 1.0;
+                var is_playback_rate_changed = (original_playback_rate !== audio.playbackRate);
+                audio.playbackRate = original_playback_rate;
+                return is_playback_rate_changed;
+            }(args.audio_element));
+
+            if (supports_playback_rate) {
+                var rate_range_element = document.getElementById('playback-rate');
+                rate_range_element.disabled = false;
+                rate_range_element.addEventListener('change', function (e) {
+                    args.audio_element.playbackRate = this.valueAsNumber;
+                }, false);
+            }
+            else {
+                document.querySelector('.playback-rate-unavailable').hidden = false;
+            }
+
+            ReadAlong.init(args);
+
+            document.getElementById('autofocus-current-word').addEventListener('change', function (e) {
+                ReadAlong.autofocus_current_word = this.checked;
+            }, false);
+
+            document.querySelector('.passage-audio').hidden = false;
+            if (supports_playback_rate) {
+                document.querySelector('.playback-rate').hidden = false;
+            }
+            document.querySelector('.autofocus-current-word').hidden = false;
+        } catch (err) {
+            console.error(err);
+        }
+        document.body.classList.add('initialized');
+        document.querySelector('.loading').hidden = true;
+
+        var ElementClass = {
+            dict: {},
+
+            create: function(class_name) {
+                var tmp = class_name.split(/[\s\t\r\n]+/);
+                var dict = {};
+                for (var i in tmp) {
+                    var x = tmp[i];
+                    if (x && !(x in dict)) {
+                        dict[x] = true;
+                    }
+                }
+                this.dict = dict;
+                return this;
+            },
+
+            hasClass: function(class_name) {
+                return class_name in this.dict;
+            },
+
+            addClass: function(class_name) {
+                this.dict[class_name] = true;
+            },
+
+            removeClass: function(class_name) {
+                delete this.dict[class_name];
+            },
+
+            toString: function() {
+                var tmp = [];
+                for (var x in this.dict) {
+                    tmp.push(x);
+                }
+                return tmp.join(' ');
+            },
+        };
+
+        window.addEventListener('scroll', function(e) {
+            var bodyClass = ElementClass.create(document.querySelector('body').className);
+            if (window.scrollY >= 100) {
+                bodyClass.addClass('sticky-header');
+            } else {
+                bodyClass.removeClass('sticky-header');
+            }
+            document.querySelector('body').className = bodyClass.toString();
+        }, false);
+
+    }, false);
+
+
+</script>
+
+
+    </body>
+</html>
